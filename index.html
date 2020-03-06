@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- set metadata -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="author" content="Kris Koeckritz">
+    <meta name="description" content="Want to keep the web open, fun, and accessible? Let's work together.">
+
+    <!-- jquery, ionicons -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+    <script type="module" src="https://unpkg.com/ionicons@5.0.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule="" src="https://unpkg.com/ionicons@5.0.0/dist/ionicons/ionicons.js"></script>  
+
+    <!-- styles, fonts, favicon -->
+    <link rel="stylesheet" href="./assets/css/layout.css">
+    <link rel="stylesheet" href="./assets/css/style.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,500|Roboto+Mono:300,700&display=swap" rel="stylesheet"> 
+    <link rel="icon" href="./assets/img/fav_low2.png" type="image/png">
+        
+    <!-- custom functions -->
+    <script async src="./assets/js/main.js"></script>
+  
+    <title>koec.io - Frontend and Then Some</title>
+</head>
+<body>
+  
+  <div class="tv">
+    <div class="tvFeatures">
+      <div class="webcam">
+        <div class="webcamLens"></div>
+        <div class="webcamLight">•</div>
+      </div>
+      <a href="/">
+        <img src="./assets/img/bezelBrand.png" alt="Koec.io" class="bezelBrand">
+      </a>
+      <div class="powerButton">
+        <div class="powerButtonLight lit">
+          <ion-icon name="power"></ion-icon>
+        </div>
+      </div>
+    </div>
+    
+    <div class="tvScreen">
+      <div class="blank"></div>
+      <div class="preloader">
+        <div class="row center">
+          <h2 class="preloaderText">BOOTING UP</h2>
+        </div>
+        <div class="row center">
+          <div class="preloaderDotZone">
+            <div class="col center">
+              <div class="preloaderDot" style="--delay: 0ms"></div>
+              <div class="preloaderDot" style="--delay: 250ms"></div>
+              <div class="preloaderDot" style="--delay: 500ms"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="desktop">
+        <!-- <div class="eyeCandy svgWrapper fadeIn"></div> -->
+        <!-- <div class="row center">
+          <h1 class="brand">
+            <span class="brandText">Kris</span>
+            <span class="brandText">Koeckritz</span>
+          </h1>
+        </div> -->
+        
+        <div class="assistant">
+          <span class="assistantFace">
+            <ion-icon name="information-circle"></ion-icon>
+          </span>
+          <div class="assistantTyper">
+            <h3 class="assistantText typing" id="nav_desc"></h3>
+          </div>
+        </div>
+
+        <div class="dock">
+          <h3 class="navLink" id="navLink_1" data-text="Web" data-desc="Probably what you're here for.">W</h3>
+          <h3 class="navLink" id="navLink_3" data-text="Blog" data-desc="Are you sure?">B</h3>
+          <h3 class="navLink" id="navLink_2" data-text="Art" data-desc="Might be worth a look.">A</h3>
+        </div>
+
+      </div>
+    
+      <div class="window" id="section_1">
+        <div class="row center">
+          <h1 class="sectionHeading">Projects to Show Off</h1>
+        </div>
+      </div>
+    
+      <div class="window" id="section_2">
+        <div class="row center">
+          <h1 class="sectionHeading">Things to Read</h1>
+        </div>
+        <div class="row center">
+          <div class="col center">
+            <a href="http://pizza.com" class="refLink">LINK ANIM TEST</a>
+          </div>
+        </div>
+      </div>
+  
+      <div class="window" id="section_3">
+        <div class="row center">
+          <h1 class="sectionHeading">In the Name of Art</h1>
+        </div>
+        <div class="row even">
+          <div class="col even"><img src="./assets/img/Beach_4K.png" alt=""></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</body>
+</html>

@@ -102,3 +102,11 @@ dist
 
 # TernJS port file
 .tern-port
+
+# image masters
+assets/img/*.xcf
+assets/masters/*.*
+
+# firebase things
+public/
+firebase-debug.log
