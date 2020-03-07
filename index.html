@@ -27,14 +27,14 @@
   
   <div class="tv">
     <div class="tvFeatures">
-      <div class="webcam">
+      <div class="webcam hasDesc" data-desc="I'm a cam.">
         <div class="webcamLens"></div>
         <div class="webcamLight">•</div>
       </div>
       <a href="/">
-        <img src="./assets/img/bezelBrand.png" alt="Koec.io" class="bezelBrand">
+        <img src="./assets/img/bezelBrand.png" alt="Koec.io" class="bezelBrand hasDesc" data-desc="Need to reboot?">
       </a>
-      <div class="powerButton">
+      <div class="powerButton pressed">
         <div class="powerButtonLight lit">
           <ion-icon name="power"></ion-icon>
         </div>
@@ -69,7 +69,7 @@
         
         <div class="assistant">
           <span class="assistantFace">
-            <ion-icon name="information-circle"></ion-icon>
+            <ion-icon name="skull" class="hasDesc" data-desc="Don't mind the look, I'm actually your assistant."></ion-icon>
           </span>
           <div class="assistantTyper">
             <h3 class="assistantText typing" id="nav_desc"></h3>
@@ -77,9 +77,18 @@
         </div>
 
         <div class="dock">
-          <h3 class="navLink" id="navLink_1" data-text="Web" data-desc="Probably what you're here for.">W</h3>
-          <h3 class="navLink" id="navLink_3" data-text="Blog" data-desc="Are you sure?">B</h3>
-          <h3 class="navLink" id="navLink_2" data-text="Art" data-desc="Might be worth a look.">A</h3>
+          <div class="dockButton">
+            <ion-icon name="layers" class="navLink hasDesc" id="navLink_1" data-desc="WEB: Probably what you're here for."></ion-icon>
+          </div>
+          <div class="dockButton">
+            <ion-icon name="megaphone" class="navLink hasDesc" id="navLink_2" data-desc="BLOG: Are you sure?"></ion-icon>
+          </div>
+          <div class="dockButton">
+            <ion-icon name="color-filter" class="navLink hasDesc" id="navLink_3" data-desc="ART: Might be worth a look."></ion-icon>
+          </div>
+          <div class="dockButton">
+            <ion-icon name="document-text" class="navLink hasDesc" id="navLink_4" data-desc="RESUME: Like what you see?"></ion-icon>
+          </div>
         </div>
 
       </div>

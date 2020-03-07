@@ -17,7 +17,7 @@ let generic = {
 		$(".assistantTyper").hide();
 	},
 	doneLoading: () => {
-		$(".preloaderText").text("Welcome");
+		$(".preloaderText").text("WELCOME");
 		$(".preloaderDotZone").addClass("hide");
 		$(".preloader").fadeOut(1000).promise().done(() => {
 			$(".desktop").fadeIn(500);
@@ -28,19 +28,19 @@ let generic = {
 };
 
 let screen = {
-	nameInt: null,
 	descInt: null,
 
 	setPower: () => {
 		$(".powerButton").click(() => {
 			$(".blank").toggle();
+			$(".powerButton").toggleClass("pressed")
 			$(".powerButtonLight").toggleClass("lit");
 			$(".webcamLight").toggleClass("blinking");
 		});
 	},
 
 	setPrintDesc: () => {
-		$(".navLink").hover((e) => {
+		$(".hasDesc").hover((e) => {
 			// animate to description
 			let $typer = $(".assistantTyper");
 			let $desc = $(".assistantText");
@@ -125,7 +125,9 @@ let rings = {
 };
 
 // before content loaded
-generic.beginLoading();
+$(document).ready(() => {
+	generic.beginLoading();
+})
 
 // once content loaded
 $(window).on("load", () => {
