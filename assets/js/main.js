@@ -11,10 +11,13 @@ let generic = {
 			rect.right <= (window.innerWidth || document.documentElement.clientWidth)
 		);
 	},
-	beginLoading: () => {
+
+	prepareDesktop: () => {
 		$(".blank").fadeOut(1000);
 		$(".desktop").hide();
 		$(".assistantTyper").hide();
+		$(".contextMenu").hide();
+		$(".window").hide();
 	},
 	doneLoading: () => {
 		$(".preloaderText").text("WELCOME");
@@ -37,16 +40,50 @@ let screen = {
 			$(".powerButtonLight").toggleClass("lit");
 			$(".webcamLight").toggleClass("blinking");
 		});
+	}
+};
+
+let desktop = {
+	setContextMenus: () => {
+		$(".hasContext").contextmenu((e) => {
+			let $menuTarget = null;
+			let $curMenu = null;
+			
+			// INCLUDE TEXT-SELECTION
+			if ($(e.target).hasClass("window")) {
+				$menuTarget = $(".window");
+				$curMenu = $(".windowContext")
+			} else {
+				$menuTarget = $(".desktop");
+				$curMenu = $(".desktopContext");
+			}
+
+			e.stopPropagation();
+			e.preventDefault();
+			$(".contextMenu").hide();
+			$curMenu.css({top: e.clientY, left: e.clientX});
+			$curMenu.show();
+			
+			$(".desktop").on("click", (e) => {
+				if (!($(e.target).closest(".contextMenu").length)) {
+					e.preventDefault();
+					$(".contextMenu").hide();
+					$menuTarget.off("click");
+				}
+			});
+
+			return false;
+		});
 	},
 
 	setPrintDesc: () => {
 		$(".hasDesc").hover((e) => {
-			// animate to description
-			let $typer = $(".assistantTyper");
-			let $desc = $(".assistantText");
+			const $typer = $(".assistantTyper");
+			const $desc = $(".assistantText");
 			let descText = $(e.target).data("desc");
 			let i = 0;
 
+			// raise opacity on assistant
 			$(".assistant").addClass("focused");
 			$typer.stop().show();
 			$typer.css("opacity", "1");
@@ -54,6 +91,7 @@ let screen = {
 			$desc.css("opacity", "1");
 			$desc.text("");
 
+			// print desc one letter at a time until complete
 			screen.descInt = setInterval(() => {
 				let curDesc = $desc.text();
 				if (curDesc != descText) {
@@ -67,10 +105,10 @@ let screen = {
 			}, 25);
 			
 		}, (e) => {
-			// clear description
+			// clear assistant
 			clearInterval(screen.descInt);
-			let $typer = $(".assistantTyper");
-			let $desc = $(".assistantText");
+			const $typer = $(".assistantTyper");
+			const $desc = $(".assistantText");
 			$desc.removeClass("doneTyping");
 			$desc.addClass("typing");
 			$desc.fadeOut(250);
@@ -81,59 +119,45 @@ let screen = {
 		});
 	},
 
-  setLinks: () => {
-    $(".navLink").click((e) => {
-      // identify old/new sections
-      let oldId = $(".selected").attr("id");
-			if (oldId) {
-      	var oldSection = oldId.substring(oldId.length - 1);
-			}
-      let newId = $(e.target).attr("id");
-      let newSection = newId.substring(newId.length - 1);
-
-      // make sure new section is different
-      if (oldSection !== newSection) {
-        // bold clicked link
-        $(".navLink").removeClass("selected");
-        $(e.target).addClass("selected");
-
-        // change shown section
-				$(".svgBox").removeClass("growAnim");
-				$(".svgBox").addClass("shrinkAnim");
-        // $(`#section_${oldSection}`).hide();
-        // $(`#section_${newSection}`).fadeIn(1200);
-      }
-    });
-  }
-};
-
-let rings = {
-	// draw svg rings over contact info
-	drawRings: () => {
-		let rings = "";
-		
-		for (let i = 0; i < 1; i++) {
-			let rx = 30 + (i * 3);
-			let ry = 40 + (i * 3);
-			let st = 2;
-
-			rings += (`<ellipse rx="${rx}%" ry="${ry}%" cx="50%" cy="50%" stroke-width="${st}" class="svgRing ringAnim-${i % 3}" />`);
-		}
-
-		$(`<svg preserveAspectRatio="xMidYMid meet" viewBox="0 0 1000 1000" class="svgBox growAnim">${rings}</svg>`).appendTo(".svgWrapper");
+	setWindows: () => {
+		$(".dockButton").click((e) => {
+			let launchWindow = $(e.target).data("launch");
+			$(".window").hide();
+			$(`[data-window="${launchWindow}"]`).show();
+		});
 	}
 };
 
+let windows = {
+	setLaunchers: () => {
+		$(".dockButton").click((e) => {
+			let launchWindow = $(e.target).data("launch");
+			$(".window").hide();
+			$(`[data-window="${launchWindow}"]`).show();
+		});
+	},
+
+	setControls: () => {
+		$(".maxButton").click(() => {
+			$(".window").toggleClass("maximized");
+		});
+		$(".closeButton").click(() => {
+			$(".window").hide();
+		});
+	}
+}
+
 // before content loaded
 $(document).ready(() => {
-	generic.beginLoading();
+	generic.prepareDesktop();
 })
 
 // once content loaded
 $(window).on("load", () => {
 	generic.doneLoading();
 	screen.setPower();
-	screen.setPrintDesc();
-	screen.setLinks();
-	rings.drawRings();
+	desktop.setContextMenus();
+	desktop.setPrintDesc();
+	windows.setLaunchers();
+	windows.setControls();
 });

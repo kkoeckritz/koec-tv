@@ -26,21 +26,7 @@
 <body>
   
   <div class="tv">
-    <div class="tvFeatures">
-      <div class="webcam hasDesc" data-desc="I'm a cam.">
-        <div class="webcamLens"></div>
-        <div class="webcamLight">•</div>
-      </div>
-      <a href="/">
-        <img src="./assets/img/bezelBrand.png" alt="Koec.io" class="bezelBrand hasDesc" data-desc="Need to reboot?">
-      </a>
-      <div class="powerButton pressed">
-        <div class="powerButtonLight lit">
-          <ion-icon name="power"></ion-icon>
-        </div>
-      </div>
-    </div>
-    
+
     <div class="tvScreen">
       <div class="blank"></div>
       <div class="preloader">
@@ -58,7 +44,7 @@
         </div>
       </div>
       
-      <div class="desktop">
+      <div class="desktop hasContext" data-context="desktop">
         <!-- <div class="eyeCandy svgWrapper fadeIn"></div> -->
         <!-- <div class="row center">
           <h1 class="brand">
@@ -66,10 +52,41 @@
             <span class="brandText">Koeckritz</span>
           </h1>
         </div> -->
+
+        <div class="contextMenu desktopContext">
+          <div class="contextHeading">BACKGROUND</div>
+          <div class="contextContent">
+            <div class="colorPreview colorPreviewLight hasDesc" data-desc="A colorful and abstract painting.">A</div>
+            <div class="colorPreview colorPreviewDark hasDesc" data-desc="A landscape picture.">A</div>
+          </div>
+        </div>
+
+        <div class="contextMenu windowContext">
+          <div class="contextHeading">FONT</div>
+          <div class="contextContent">
+            <div class="tinyButton">
+              <ion-icon name="remove"></ion-icon>
+            </div>
+            <h2 class="fontPreview">Aa</h2>
+            <div class="tinyButton">
+              <ion-icon name="add"></ion-icon>
+            </div>
+          </div>
+          <div class="contextHeading">COLORS</div>
+          <div class="contextContent">
+            <div class="colorPreview colorPreviewLight hasDesc" data-desc="The default light theme. A little tired if you ask me.">A</div>
+            <div class="colorPreview colorPreviewDark hasDesc" data-desc="A dark theme, for the hackers.">A</div>
+            <div class="colorPreview colorPreviewContrast hasDesc" data-desc="A high-contrast theme for compromised eyes.">A</div>
+          </div>
+        </div>
+
+        <!-- <div class="contextMenu selectionContext">
+
+        </div> -->
         
         <div class="assistant">
-          <span class="assistantFace">
-            <ion-icon name="skull" class="hasDesc" data-desc="Don't mind the look, I'm actually your assistant."></ion-icon>
+          <span class="assistantFace hasDesc" data-desc="Don't mind the look, I'm actually your assistant.">
+            <ion-icon name="skull"></ion-icon>
           </span>
           <div class="assistantTyper">
             <h3 class="assistantText typing" id="nav_desc"></h3>
@@ -77,49 +94,98 @@
         </div>
 
         <div class="dock">
-          <div class="dockButton">
-            <ion-icon name="layers" class="navLink hasDesc" id="navLink_1" data-desc="WEB: Probably what you're here for."></ion-icon>
+          <div class="dockButton hasDesc" data-launch="web" data-desc="WEB: Probably what you're here for.">
+            <ion-icon name="layers"></ion-icon>
           </div>
-          <div class="dockButton">
-            <ion-icon name="megaphone" class="navLink hasDesc" id="navLink_2" data-desc="BLOG: Are you sure?"></ion-icon>
+          <div class="dockButton hasDesc" data-launch="blog" data-desc="BLOG: Are you sure?">
+            <ion-icon name="megaphone"></ion-icon>
           </div>
-          <div class="dockButton">
-            <ion-icon name="color-filter" class="navLink hasDesc" id="navLink_3" data-desc="ART: Might be worth a look."></ion-icon>
+          <div class="dockButton hasDesc" data-launch="art" data-desc="ART: Might be worth a look.">
+            <ion-icon name="color-filter"></ion-icon>
           </div>
-          <div class="dockButton">
-            <ion-icon name="document-text" class="navLink hasDesc" id="navLink_4" data-desc="RESUME: Like what you see?"></ion-icon>
+          <div class="dockButton hasDesc" data-launch="resume" data-desc="RESUME: Like what you see?">
+            <ion-icon name="document-text"></ion-icon>
           </div>
         </div>
 
-      </div>
-    
-      <div class="window" id="section_1">
-        <div class="row center">
-          <h1 class="sectionHeading">Projects to Show Off</h1>
-        </div>
-      </div>
-    
-      <div class="window" id="section_2">
-        <div class="row center">
-          <h1 class="sectionHeading">Things to Read</h1>
-        </div>
-        <div class="row center">
-          <div class="col center">
-            <a href="http://pizza.com" class="refLink">LINK ANIM TEST</a>
+        <div class="window" data-window="web">
+          <div class="windowControls">
+            <div class="controlButton maxButton">
+              <ion-icon name="resize-outline"></ion-icon>
+            </div>
+            <div class="controlButton closeButton">
+              <ion-icon name="close"></ion-icon>
+            </div>
           </div>
+          <div class="windowContent">
+            <div class="contentHeading"></div>
+          </div>
+          <h2>Web Projects</h2>
         </div>
-      </div>
-  
-      <div class="window" id="section_3">
-        <div class="row center">
-          <h1 class="sectionHeading">In the Name of Art</h1>
+        <div class="window" data-window="blog">
+          <div class="windowControls">
+            <div class="controlButton maxButton">
+              <ion-icon name="resize-outline"></ion-icon>
+            </div>
+            <div class="controlButton closeButton">
+              <ion-icon name="close"></ion-icon>
+            </div>
+          </div>
+          <div class="windowContent">
+            <div class="contentHeading"></div>
+          </div>
+          <h2>Blog</h2>
         </div>
-        <div class="row even">
-          <div class="col even"><img src="./assets/img/Beach_4K.png" alt=""></div>
+        <div class="window" data-window="art">
+          <div class="windowControls">
+            <div class="controlButton maxButton">
+              <ion-icon name="resize-outline"></ion-icon>
+            </div>
+            <div class="controlButton closeButton">
+              <ion-icon name="close"></ion-icon>
+            </div>
+          </div>
+          <div class="windowContent">
+            <div class="contentHeading"></div>
+          </div>
+          <h2>Art</h2>
         </div>
-      </div>
+        <div class="window" data-window="resume">
+          <div class="windowControls">
+            <div class="controlButton maxButton">
+              <ion-icon name="resize-outline"></ion-icon>
+            </div>
+            <div class="controlButton closeButton">
+              <ion-icon name="close"></ion-icon>
+            </div>
+          </div>
+          <div class="windowContent">
+            <div class="contentHeading"></div>
+          </div>
+          <h2>Resume</h2>
+        </div>
+      </div> <!-- /desktop -->
+
+      <!-- big img for testing preloader -->
+      <div class="col even"><img src="./assets/img/Beach_4K.png" alt="" style="display: none;"></div>
 
     </div>
+
+    <div class="tvFeatures">
+      <div class="webcam hasDesc" data-desc="It's all for show. For now.">
+        <div class="webcamLens"></div>
+        <div class="webcamLight">•</div>
+      </div>
+      <a href="/">
+        <img src="./assets/img/bezelBrand.png" alt="Koec.io" class="bezelBrand hasDesc" data-desc="Need to reboot?">
+      </a>
+      <div class="powerButton pressed">
+        <div class="powerButtonLight lit">
+          <ion-icon name="power"></ion-icon>
+        </div>
+      </div>
+    </div>
+    
   </div>
 
 </body>
