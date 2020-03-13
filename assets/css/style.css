@@ -1,5 +1,10 @@
 /* global pseudo-selectors */
 :root {
+  /* relative to index.html, NOT to this file */
+  --img-bg-1: url("./assets/img/bg1.jpg");
+  --img-bg-2: url("./assets/img/bg2.jpg");
+  --img-bg-3: url("./assets/img/bg3.jpg");
+
   --color-tv: #222;
   --color-background: #fa3;
   --color-dark: black;
@@ -10,21 +15,27 @@
   --color-base-2: #b01b29;
   --color-base-3: #1ac;
   --color-text: #112;
+  --color-max-button: black;
 
   --font-sans: "Roboto", "Open Sans", "Fira Sans", "Lucida Sans", "Lucida Sans Unicode", "Trebuchet MS", sans-serif;
   --font-serif: serif;
   --font-mono: "Roboto Mono", "DejaVu Sans Mono", Menlo, Consolas, "Liberation Mono", Monaco, "Lucida Console", monospace;
 
-  --chosen-heading-font: var(--font-sans);
-  --chosen-text-font: var(--font-serif);
+  --duration-fast: 100ms;
+  --duration-normal: 200ms;
+  --duration-slow: 500ms;
+  
   --chosen-bg-color: var(--color-light);
   --chosen-fg-color: var(--color-text);
+  --chosen-heading-font: var(--font-sans);
+  --chosen-text-font: var(--font-serif);
+  --chosen-font-size: 12pt;
+  --chosen-timing-func: cubic-bezier(0.215, 0.610, 0.355, 1);
 }
 
 ::selection {
-  background-color: var(--color-base-1);
-  color: var(--color-background);
-  text-shadow: inherit;
+  background-color: unset;
+  color: unset;
 }
 
 /* global elements */
@@ -54,27 +65,34 @@ body {
   background-color: black;
 }
 
+strong {
+  font-weight: bold;
+}
+
 h1 {
-  font-family: var(--font-sans);
-  font-size: 64pt;
+  font-family: var(--chosen-heading-font);
+  font-size: 30pt;
 }
 
 h2 {
+  font-family: var(--chosen-heading-font);
   font-size: 24pt;
 }
 
 h3 {
+  font-family: var(--chosen-heading-font);
   font-size: 20pt;
 }
 
 p {
   font-family: var(--font-sans);
   font-size: 14pt;
+  font-weight: 400;
 }
 
 a {
-  color: unset;
   font-family: var(--font-sans);
+  color: unset;
   font-size: 14pt;
 
   text-decoration: none;
@@ -92,11 +110,6 @@ ion-icon {
   margin: 0 4px;
 
   pointer-events: none;
-}
-
-/* generic classes */
-.hide {
-  opacity: 0;
 }
 
 /* element-specific classes */
@@ -192,7 +205,7 @@ ion-icon {
   z-index: 21;
   
   background-color: unset;
-  border-width: 2px 2px 2px 0;
+  border-width: 1px 1px 1px 0;
 }
 .preloaderDot:last-of-type {
   width: 10px;
@@ -200,7 +213,7 @@ ion-icon {
   z-index: 21;
   
   background-color: unset;
-  border-width: 2px 0 2px 2px;
+  border-width: 1px 0 1px 1px;
 }
 @keyframes morph-dot {
   0% {
@@ -209,7 +222,7 @@ ion-icon {
   50% {
     background-color: unset;
     
-    transform: translateX(155px) scaleX(17);
+    transform: translateX(155px) scaleX(18);
   }
   100% {
     transform: translateX(310px);
@@ -228,10 +241,22 @@ ion-icon {
   width: calc(100% - 4px);
   height: calc(100% - 4px);
 
-  background: url("../img/bg.jpg");
+  background-color: #757575;
+  background-image: url("../img/bg1.jpg");
+  background-size: auto;
+  background-repeat: no-repeat;
   background-position: center;
   background-origin: content-box;
   color: var(--color-base-1);
+}
+.desktop::after {
+  position: absolute;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+  z-index: -100;
+
+  content: url("../img/bg1.jpg") url("../img/bg2.jpg") url("../img/bg3.jpg")
 }
 
 .assistant {
@@ -246,17 +271,10 @@ ion-icon {
   height: auto;
   margin: 20px;
   z-index: 40;
-
   opacity: .5;
   
-  transition: opacity 500ms;
-}
-.assistant:hover {
-  opacity: 1;
-}
-
-.focused {
-  opacity: 1;
+  transition: opacity var(--duration-normal);
+  transition-timing-function: var(--chosen-timing-func);
 }
 
 .assistantFace {
@@ -270,16 +288,15 @@ ion-icon {
   position: relative;
   width: 60px;
   height: 60px;
-  margin-right: -25px;
+  margin-right: 20px;
   z-index: 21;
   
-  opacity: 1;
   background: radial-gradient(white 60%, #999 90%);
   color: var(--color-text);
   font-size: 30pt;
   text-align: center;
   border-radius: 50%;
-  box-shadow: 0 2px 2px 0 #22222288, 0 -2px 0 #eee;
+  box-shadow: 0 2px 6px 0 #22222288, 0 -2px 0 #eee;
 }
 
 .assistantTyper {
@@ -290,26 +307,45 @@ ion-icon {
 
   position: relative;
   height: auto;
+  min-height: 30px;
+  padding: 0 20px;
   z-index: 20;
 
-  background-color: white;
+  background-color: var(--chosen-bg-color);
   color: var(--color-text);
-  border-radius: 25px;
-  box-shadow: 0 2px 2px 0 #22222288, 0 -2px 0 #eee;
+  border-radius: 5px;
+  box-shadow: 0 2px 6px 0 #22222288;
+  cursor: default;
+}
+.assistantTyper::before {
+  display: flex;
+  align-self: center;
+  
+  position: absolute;
+  left: -5px;
+  width: 10px;
+  height: 10px;
+
+  content: " ";
+  background: linear-gradient(-45deg, transparent 50%, var(--chosen-bg-color) 50%);
+  box-shadow: 4px 4px 0 4px var(--chosen-bg-color), -2px -2px 3px #22222233;
+
+  transform: rotate(-45deg);
 }
 
 .assistantText {
-  display: none;
-
-  margin: 10px 20px 10px 40px;
+  margin: 10px 0;
 
   font-family: var(--font-mono);
   font-size: 14pt;
-  font-weight: 300;
+  font-weight: 400;
+  text-align: left;
 }
 
 .typing::after {
   content: "_";
+
+  animation: none;
 }
 
 .doneTyping::after {
@@ -337,15 +373,7 @@ ion-icon {
   margin: 0 auto;
   z-index: 40;
 
-  opacity: .5;
-  background: radial-gradient(#eee 60%, #999 90%);
   border-radius: 25px;
-  box-shadow: 0 2px 2px 0 #22222288, 0 -2px 0 #eee;
-
-  transition: opacity 500ms;
-}
-.dock:hover {
-  opacity: 1;
 }
 
 .dockButton {
@@ -358,19 +386,54 @@ ion-icon {
   width: 60px;
   height: 60px;
 
-  opacity: 1;
+  opacity: .5;
   background: radial-gradient(white 60%, #999 90%);
   color: var(--color-text);
   font-size: 30pt;
   text-align: center;
   border-radius: 50%;
-  box-shadow: 0 2px 2px 0 #22222288, 0 -2px 0 #eee;
-  cursor: pointer;
+  box-shadow: 0 2px 6px 0 #22222288, 0 -2px 0 #eee;
 
-  transition: transform 100ms;
+  transition: opacity var(--duration-normal);
+  transition-timing-function: var(--chosen-timing-func);
+  shape-rendering: geometricPrecision;
 }
 .dockButton:hover {
-  transform: scale(1.08);
+  opacity: 1;
+}
+.dockButton:hover::before {
+  position: absolute;
+  top: -50px;
+  width: auto;
+  padding: 5px 10px;
+  z-index: 40;
+
+  content: attr(data-label);
+  background-color: var(--chosen-bg-color);
+  color: var(--color-text);
+  font-family: var(--font-sans);
+  font-size: 12pt;
+  text-align: center;
+  white-space: nowrap;
+  border-radius: 5px;
+  box-shadow: 0 2px 6px 0 #22222288;
+  cursor: default;
+}
+.dockButton:hover::after {
+  display: flex;
+  align-self: center;
+  
+  position: absolute;
+  top: -25px;
+  width: 10px;
+  height: 10px;
+  z-index: 40;
+
+  content: " ";
+  background: linear-gradient(-45deg, transparent 50%, var(--chosen-bg-color) 50%);
+  box-shadow: 1px 1px 0 var(--chosen-bg-color), -2px -2px 3px #22222233;
+
+  transform: rotate(-135deg);
 }
 
 /* context features */
@@ -390,11 +453,7 @@ ion-icon {
   color: var(--color-text);
   text-align: center;
   border-radius: 5px;
-  box-shadow: 0 2px 2px 0 #22222288, 0 -2px 0 #eee;
-}
-.contextMenu *::selection {
-  background-color: unset;
-  color: unset;
+  box-shadow: 0 2px 6px 0 #22222288;
 }
 
 .contextHeading {
@@ -403,7 +462,9 @@ ion-icon {
   align-items: center;
   
   width: 100%;
+  line-height: 12pt;
   margin-bottom: 10px;
+  padding-bottom: 10px;
 
   font-family: var(--font-sans);
   font-size: 12pt;
@@ -416,6 +477,7 @@ ion-icon {
   justify-content: center;
   align-items: center;
 
+  width: 100%;
   margin-bottom: 20px;
 
   opacity: 1;
@@ -424,6 +486,40 @@ ion-icon {
 }
 .contextContent:last-of-type {
   margin-bottom: 0;
+}
+
+.contextRow:last-of-type {
+  margin-bottom: 0;
+}
+
+.imgPreview {
+  width: 100%;
+  height: 30px;
+  margin-bottom: 10px;
+
+  background-color: black;
+  background-position: bottom;
+  background-repeat: no-repeat;
+
+  border: 2px solid #ddd;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.isSet {
+  border: 2px solid var(--chosen-fg-color);
+}
+
+.imgPreview1 {
+  background-image: url("../img/previewbg1.jpg");
+}
+
+.imgPreview2 {
+  background-image: url("../img/previewbg2.jpg");
+}
+
+.imgPreview3 {
+  background-image: url("../img/previewbg3.jpg");
 }
 
 .tinyButton {
@@ -481,28 +577,30 @@ ion-icon {
 }
 
 /* window features */
-.window {
+.windowShell {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
 
   width: 50%;
+  min-width: 350px;
   height: 50%;
   z-index: 30;
 
   background-color: var(--color-light);
   color: var(--color-text);
   border-radius: 5px;
-  box-shadow: 0 2px 2px 0 #22222288;
+  box-shadow: 0 2px 6px 0 #22222288;
 
-  transition: width 200ms, height 200ms;
-  animation: open-window 200ms linear forwards;
+  transition: width var(--duration-normal), height var(--duration-normal);
+  transition-timing-function: var(--chosen-timing-func);
+  animation: open-window var(--duration-normal) var(--chosen-timing-func) forwards;
 }
 
 @keyframes open-window {
   from {
-    transform: scale(.95);
+    transform: scale3d(.95, .95, 1);
     opacity: .5;
   }
   to {
@@ -516,8 +614,21 @@ ion-icon {
   height: 100%;
 
   border-radius: 0;
+}
 
-  animation: open-window-maximized 200ms linear forwards;
+.closed {
+  animation: close-window var(--duration-normal) var(--chosen-timing-func) forwards;
+}
+
+@keyframes close-window {
+  from {
+    transform: none;
+    opacity: 1;
+  }
+  to {
+    transform: scale3d(.95, .95, 1);
+    opacity: 0;
+  }
 }
 
 .windowControls {
@@ -533,7 +644,7 @@ ion-icon {
   justify-content: center;
   align-items: center;
   
-  width: 36px;
+  width: 40px;
   height: 30px;
   
   color: var(--color-text);
@@ -542,22 +653,231 @@ ion-icon {
 }
 
 .maxButton {
-
+  color: var(--color-max-button);
 }
 .maxButton:hover {
-  background-color: #eee;
+  background-color: #00000030;
 }
 
 .closeButton {
-  background-color: #b01b2944;
+  background-color: #eac2c6;
   border-radius: 0 5px 0 0;
 }
 .closeButton:hover {
-  background-color: #b01b2988;
+  background-color: #d5858c;
+}
+
+.windowModule {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+
+  width: 100%;
+  height: 100%;
+}
+.windowModule *::selection {
+  background-color: blue;
+  color: blue;
+}
+
+.windowHeading {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+
+  width: 100%;
+
+  background-color: var(--bg-color);
+  font-family: var(--font-sans);
+
+  border-radius: 5px 5px 0 0;
+  cursor: default;
+}
+
+.standardHeadingText {
+  display: flex;
+  align-items: center;
+  
+  position: relative;
+  height: 100px;
+
+  color: var(--chosen-fg-color);
+  font-size: 30pt;
+  font-weight: 700;
+  text-align: center;
+}
+
+.brandHeadingText {
+  position: relative;
+  
+  color: white;
+  font-size: 72pt;
+  font-weight: 400;
+  text-shadow: none;
+  letter-spacing: -6px;
+  
+  transition-property: color, text-shadow, transform;
+  transition-duration: var(--duration-normal);
+  transition-timing-function: var(--chosen-timing-func);
+  transform: none;
+}
+.brandHeadingText::first-letter {
+  font-weight: 700;
+}
+.brandHeadingText::after {
+  position: absolute;
+  top: 46%;
+  right: 7px;
+  
+  content: "V2";
+  color: var(--color-background);
+  font-size: 20pt;
+  letter-spacing: -2px;
+  text-shadow: none;
+
+  transition-property: color;
+  transition-duration: var(--duration-normal);
+  transition-timing-function: var(--chosen-timing-func);
+}
+.brandHeadingText:hover {
+  color: var(--color-background);
+  text-shadow: 0 2px 0px white, 0 4px 4px white, 0px 4px 20px white;
+  transform: rotateX(30deg);
+}
+.brandHeadingText:hover::after {
+  color: white;
+}
+
+.tld {
+  font-weight: 100;
 }
 
 .windowContent {
+  display: flex;
+  flex-direction: column;
+
+  width: 100%;
+  height: 100%;
   padding: 10px;
+
+  background-color: var(--chosen-bg-color);
+  color: var(--chosen-fg-color);
+  text-align: left;
+}
+
+.windowRow {
+  display: flex;
+  flex-direction: row;
+  justify-content: stretch;
+
+  width: 100%;
+  height: 100%;
+}
+
+.infoCard {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-content: center;
+  
+  position: relative;
+  width: 100%;
+  height: 100%;
+  padding: 10px;
+
+  background-color: var(--chosen-bg-color);
+  color: var(--chosen-fg-color);
+  text-align: center;
+  border-left: 1px solid #eee;
+  border-right: 1px solid #eee;
+}
+.infoCard:first-of-type, 
+.infoCard:last-of-type {
+  border-width: 0;
+}
+
+.cardHeading {
+  margin: 10px 0 10px 0;
+  padding-bottom: 10px;
+
+  border-bottom: 1px solid #eee;
+}
+.cardHeading:first-of-type {
+  margin: 0 0 10px 0;
+}
+
+.infoFooter {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  
+  width: 100%;
+  height: 100px;
+
+  background-color: #eee;
+  font-family: var(--font-sans);
+}
+.infoFooter > a:hover {
+  text-decoration: underline;
+}
+
+.revealCard {
+  background-image: linear-gradient(120deg, var(--color-background) 0%, var(--color-background) 100%);
+  background-size: 100% .1em;
+  background-position: 0 100%;
+  background-repeat: no-repeat;
+  color: white;
+  font-family: var(--font-sans);
+  font-size: 14pt;
+  text-align: center;
+  cursor: default;
+
+  transition-property: background-size;
+  transition-duration: var(--duration-slow);
+  transition-timing-function: var(--chosen-timing-func);
+  transition-delay: 500ms;
+}
+.revealCard::before {
+  display: flex;
+
+  position: absolute;
+  
+  content: attr(data-placeholder);
+  color: #222;
+
+  transition: opacity var(--duration-normal);
+  transition-timing-function: var(--chosen-timing-func);
+  transition-delay: var(--duration-slow);
+}
+.revealCard:hover {
+  background-size: 100% 100%;
+}
+.revealCard:hover::before {
+  opacity: 0;
+  text-decoration: underline;
+}
+
+.windowFooter {
+  width: 100%;
+  height: 100px;
+  
+  background-color: #222;
+  border-radius: 0 0 5px 5px;
+}
+
+/* generic classes */
+.hide {
+  opacity: 0;
+}
+
+.focused {
+  opacity: 1;
+}
+
+.hasLaunch {
+  cursor: pointer;
 }
 
 /* TV features */
@@ -646,20 +966,15 @@ ion-icon {
   border-radius: 50%;
   cursor: default;
 
+  transition-property: color, text-shadow;
+  transition-duration: var(--duration-fast);
+  
   pointer-events: none;
 }
 
-.blinking {
+.webcamLit {
   color: #e45;
   text-shadow: 0 0 2px #e45, 0 0 4px #e45, 0 0 8px #e45;
-  
-  animation: light-blink 1.2s ease-in infinite;
-}
-@keyframes light-blink {
-  to {
-    color: transparent;
-    text-shadow: none;
-  }
 }
 
 .bezelBrand {
@@ -701,18 +1016,19 @@ ion-icon {
   width: 1em;
   height: 1em; 
   
-  background: radial-gradient(#222 60%, #333 70%);
+  background: linear-gradient(#222 0%, #333 100%);
   font-size: 18pt;
   text-align: center;
   border: 1px solid #111;
   border-radius: 50%;
 
-  transition: color 100ms, box-shadow 100ms;
+  transition-property: color, border-color, box-shadow;
+  transition-duration: var(--duration-fast);
 }
 
-.lit {
+.powerLit {
   color: #38f;
-  border: 1px solid #38f;
+  border-color: #38f;
   box-shadow: 0 0 2px #38f, 0 0 4px #38f;
 }
 
@@ -723,29 +1039,6 @@ ion-icon {
 
 
 
-
-.brand {
-  display: flex;
-
-  color: var(--color-background);
-  font-size: 72pt;
-  font-weight: 100;
-  text-shadow: 0 2px 0px var(--color-base-1), 0 4px 4px var(--color-base-1), 0px 4px 20px var(--color-base-1);
-  cursor: default;
-
-  transform: rotateX(45deg);
-  
-  transition: color .3s, text-shadow .3s, transform .3s;
-}
-.brand:hover {
-  color: var(--color-light);
-  text-shadow: none;
-  transform: rotateX(0deg);
-}
-
-.brandText::first-letter {
-  font-weight: 500;
-}
 
 .svgWrapper {
   display: flex;
@@ -829,18 +1122,14 @@ ion-icon {
 	}
 }
 
-.sectionHeading {
-  font-family: var(--font-mono);
-  font-weight: 700;
-}
-
 .refLink{
   background-image: linear-gradient(120deg, var(--color-background) 0%, var(--color-background) 100%);
   background-size: 100% .1em;
   background-position: 0 100%;
   background-repeat: no-repeat;
 
-  transition: background-size .1s ease-in;
+  transition: background-size var(--duration-fast);
+  transition-timing-function: var(--chosen-timing-func);
 }
 .refLink:hover {
   background-size: 100% 100%;

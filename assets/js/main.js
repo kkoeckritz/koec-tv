@@ -17,7 +17,8 @@ let generic = {
 		$(".desktop").hide();
 		$(".assistantTyper").hide();
 		$(".contextMenu").hide();
-		$(".window").hide();
+		$(".windowModule").hide();
+		$(".windowShell").hide();
 	},
 	doneLoading: () => {
 		$(".preloaderText").text("WELCOME");
@@ -31,133 +32,191 @@ let generic = {
 };
 
 let screen = {
-	descInt: null,
-
 	setPower: () => {
 		$(".powerButton").click(() => {
 			$(".blank").toggle();
 			$(".powerButton").toggleClass("pressed")
-			$(".powerButtonLight").toggleClass("lit");
-			$(".webcamLight").toggleClass("blinking");
+			$(".powerButtonLight").toggleClass("powerLit");
+			$(".webcamLight").toggleClass("webcamLit");
 		});
 	}
 };
 
 let desktop = {
+	waitTime: null,
+	descInt: null,
+	selectedText: "",
+	cannedPhrases: [
+		"Don't mind the look, I'm Kris's assistant.",
+		"Click me for more about this site.",
+		"I only know a few canned phrases. This is one of them.",
+		"I'm paid generously, 20 bones an hour! *crickets*"
+	],
+
+	setContextControls: () => {
+		$(".imgPreview").click((e) => {
+			let newBg = $(e.target).data("img");
+			$(".desktop").css("background-image", `var(--img-bg-${newBg})`);
+
+			$(".imgPreview").removeClass("isSet");
+			$(e.target).addClass("isSet");
+		})
+	},
+
+	// setTextSelection: () => {
+	// 	$(".windowShell").select(() => {
+	// 	});
+	// },
+
 	setContextMenus: () => {
 		$(".hasContext").contextmenu((e) => {
 			let $menuTarget = null;
 			let $curMenu = null;
 			
-			// INCLUDE TEXT-SELECTION
-			if ($(e.target).hasClass("window")) {
-				$menuTarget = $(".window");
-				$curMenu = $(".windowContext")
+			// intercept context event & deploy custom menu
+			// IF desktop.textIsSelected...
+			if ($(e.target).closest(".windowShell").length) {
+				$menuTarget = $(".windowShell");
+				$curMenu = $(".windowContext");
 			} else {
 				$menuTarget = $(".desktop");
 				$curMenu = $(".desktopContext");
 			}
 
-			e.stopPropagation();
+			e.stopImmediatePropagation();
 			e.preventDefault();
 			$(".contextMenu").hide();
 			$curMenu.css({top: e.clientY, left: e.clientX});
 			$curMenu.show();
 			
-			$(".desktop").on("click", (e) => {
+			// allow click elsewhere to close menu
+			$(".desktop").on("mousedown", (e) => {
 				if (!($(e.target).closest(".contextMenu").length)) {
-					e.preventDefault();
 					$(".contextMenu").hide();
-					$menuTarget.off("click");
 				}
 			});
+
+			// call to set up menu listeners
+			desktop.setContextControls();
 
 			return false;
 		});
 	},
 
-	setPrintDesc: () => {
+	printDesc: (descText) => {
+		const $desc = $(".assistantText");
+		let i = 0;
+		
+		// print desc one letter at a time
+		$desc.text("");
+		$desc.addClass("typing");	
+		desktop.descInt = setInterval(() => {
+			let curDesc = $desc.text();
+			if (curDesc != descText) {
+				$desc.text(curDesc + [...descText[i]]);
+			} else {
+				clearInterval(desktop.descInt);
+				$desc.removeClass("typing");
+				$desc.addClass("doneTyping");
+			}
+			i++;
+		}, 25);
+	},
+
+	setTyper: () => {
 		$(".hasDesc").hover((e) => {
 			const $typer = $(".assistantTyper");
 			const $desc = $(".assistantText");
-			let descText = $(e.target).data("desc");
-			let i = 0;
+			let descText = null;
 
 			// raise opacity on assistant
-			$(".assistant").addClass("focused");
 			$typer.stop().show();
 			$typer.css("opacity", "1");
-			$desc.stop().show();
-			$desc.css("opacity", "1");
-			$desc.text("");
+			$desc.text("…");
+			$(".assistant").addClass("focused");
 
-			// print desc one letter at a time until complete
-			screen.descInt = setInterval(() => {
-				let curDesc = $desc.text();
-				if (curDesc != descText) {
-					$desc.text(curDesc + [...descText[i]]);
-				} else {
-					clearInterval(screen.descInt);
-					$desc.removeClass("typing");
-					$desc.addClass("doneTyping");
-				}
-				i++;
-			}, 25);
+			// print given string or random phrase
+			if ($(e.target).data("desc")) {
+				descText = $(e.target).data("desc");
+			}
+			else {
+				descText = desktop.cannedPhrases[Math.floor(Math.random() * desktop.cannedPhrases.length)];
+			}
+
+			// wait, then print desc
+			desktop.waitTime = setTimeout(() => {
+				desktop.printDesc(descText);
+			}, 750);
 			
 		}, (e) => {
 			// clear assistant
-			clearInterval(screen.descInt);
 			const $typer = $(".assistantTyper");
 			const $desc = $(".assistantText");
+			clearTimeout(desktop.waitTime);
+			clearInterval(desktop.descInt);
+			$desc.removeClass("typing");
 			$desc.removeClass("doneTyping");
-			$desc.addClass("typing");
-			$desc.fadeOut(250);
-			$typer.fadeOut(250).promise().done(() => {
+			$typer.stop().fadeOut(100).promise().done(() => {
 				$desc.text("");
 			});
 			$(".assistant").removeClass("focused");
 		});
-	},
-
-	setWindows: () => {
-		$(".dockButton").click((e) => {
-			let launchWindow = $(e.target).data("launch");
-			$(".window").hide();
-			$(`[data-window="${launchWindow}"]`).show();
-		});
 	}
 };
 
-let windows = {
+let windowShell = {
+	closeTime: null,
+
 	setLaunchers: () => {
-		$(".dockButton").click((e) => {
-			let launchWindow = $(e.target).data("launch");
-			$(".window").hide();
-			$(`[data-window="${launchWindow}"]`).show();
+		$(".hasLaunch").click((e) => {
+			let moduleName = $(e.target).data("launch");
+			let windowModule = $(`[data-window="${moduleName}"]`);
+
+			$(".hasLaunch").removeClass("focused");
+			$(e.target).addClass("focused")
+			clearTimeout(windowShell.closeTime);
+			$(".windowModule").hide();
+			windowModule.show();
+			$(".windowShell").removeClass("closed");
+
+			// check if module needs dark max button
+			if (windowModule.hasClass("hasDarkHeading")) {
+				$(":root").css("--color-max-button", "white");
+			} else {
+				$(":root").css("--color-max-button", "black");
+			}
+			
+			$(".windowShell").show();
 		});
 	},
 
 	setControls: () => {
+		// maximize button
 		$(".maxButton").click(() => {
-			$(".window").toggleClass("maximized");
+			$(".windowShell").toggleClass("maximized");
 		});
+
+		// close button
 		$(".closeButton").click(() => {
-			$(".window").hide();
+			$(".windowShell").addClass("closed");
+			$(".hasLaunch").removeClass("focused");
+			windowShell.closeTime = setTimeout(() => {
+				$(".windowShell").hide();
+			}, 200);
 		});
 	}
 }
 
 // before content loaded
-$(document).ready(() => {
 	generic.prepareDesktop();
-})
 
 // once content loaded
 $(window).on("load", () => {
 	generic.doneLoading();
 	screen.setPower();
+	// desktop.setTextSelection();
 	desktop.setContextMenus();
-	desktop.setPrintDesc();
-	windows.setLaunchers();
-	windows.setControls();
+	desktop.setTyper();
+	windowShell.setLaunchers();
+	windowShell.setControls();
 });

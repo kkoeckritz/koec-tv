@@ -8,16 +8,16 @@
     <meta name="description" content="Want to keep the web open, fun, and accessible? Let's work together.">
 
     <!-- jquery, ionicons -->
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+    <script src="./assets/js/jQuery-3.4.1.min.js"></script>
     <script type="module" src="https://unpkg.com/ionicons@5.0.0/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule="" src="https://unpkg.com/ionicons@5.0.0/dist/ionicons/ionicons.js"></script>  
 
     <!-- styles, fonts, favicon -->
     <link rel="stylesheet" href="./assets/css/layout.css">
     <link rel="stylesheet" href="./assets/css/style.css">
-    <link href="https://fonts.googleapis.com/css?family=Roboto:300,500|Roboto+Mono:300,700&display=swap" rel="stylesheet"> 
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,400,700|Roboto+Mono:400&display=swap" rel="stylesheet"> 
     <link rel="icon" href="./assets/img/fav_low2.png" type="image/png">
-        
+
     <!-- custom functions -->
     <script async src="./assets/js/main.js"></script>
   
@@ -45,19 +45,13 @@
       </div>
       
       <div class="desktop hasContext" data-context="desktop">
-        <!-- <div class="eyeCandy svgWrapper fadeIn"></div> -->
-        <!-- <div class="row center">
-          <h1 class="brand">
-            <span class="brandText">Kris</span>
-            <span class="brandText">Koeckritz</span>
-          </h1>
-        </div> -->
 
         <div class="contextMenu desktopContext">
           <div class="contextHeading">BACKGROUND</div>
-          <div class="contextContent">
-            <div class="colorPreview colorPreviewLight hasDesc" data-desc="A colorful and abstract painting.">A</div>
-            <div class="colorPreview colorPreviewDark hasDesc" data-desc="A landscape picture.">A</div>
+          <div class="contextContent col">
+            <div class="contextRow imgPreview imgPreview1 isSet hasDesc" data-img="1" data-desc="Abstract and colorful."></div>
+            <div class="contextRow imgPreview imgPreview2 hasDesc" data-img="2" data-desc="Abstract and muted."></div>
+            <div class="contextRow imgPreview imgPreview3 hasDesc" data-img="3" data-desc="Grayscale landscape."></div>
           </div>
         </div>
 
@@ -73,7 +67,7 @@
             </div>
           </div>
           <div class="contextHeading">COLORS</div>
-          <div class="contextContent">
+          <div class="contextContent row">
             <div class="colorPreview colorPreviewLight hasDesc" data-desc="The default light theme. A little tired if you ask me.">A</div>
             <div class="colorPreview colorPreviewDark hasDesc" data-desc="A dark theme, for the hackers.">A</div>
             <div class="colorPreview colorPreviewContrast hasDesc" data-desc="A high-contrast theme for compromised eyes.">A</div>
@@ -85,30 +79,30 @@
         </div> -->
         
         <div class="assistant">
-          <span class="assistantFace hasDesc" data-desc="Don't mind the look, I'm actually your assistant.">
+          <span class="assistantFace hasLaunch hasDesc" data-launch="info">
             <ion-icon name="skull"></ion-icon>
           </span>
           <div class="assistantTyper">
-            <h3 class="assistantText typing" id="nav_desc"></h3>
+            <h3 class="assistantText" id="nav_desc"></h3>
           </div>
         </div>
 
         <div class="dock">
-          <div class="dockButton hasDesc" data-launch="web" data-desc="WEB: Probably what you're here for.">
+          <div class="dockButton hasLaunch hasDesc" data-launch="web" data-label="Web Development" data-desc="This is probably what you're here for.">
             <ion-icon name="layers"></ion-icon>
           </div>
-          <div class="dockButton hasDesc" data-launch="blog" data-desc="BLOG: Are you sure?">
+          <div class="dockButton hasLaunch hasDesc" data-launch="blog" data-label="Blog" data-desc="He has opinions, ">
             <ion-icon name="megaphone"></ion-icon>
           </div>
-          <div class="dockButton hasDesc" data-launch="art" data-desc="ART: Might be worth a look.">
+          <div class="dockButton hasLaunch hasDesc" data-launch="art" data-label="Art" data-desc="They'll call anything art these days, huh?">
             <ion-icon name="color-filter"></ion-icon>
           </div>
-          <div class="dockButton hasDesc" data-launch="resume" data-desc="RESUME: Like what you see?">
-            <ion-icon name="document-text"></ion-icon>
+          <div class="dockButton hasLaunch hasDesc" data-launch="contact" data-label="Contact me" data-desc="Learn about and contact Kris.">
+            <ion-icon name="person"></ion-icon>
           </div>
         </div>
 
-        <div class="window" data-window="web">
+        <div class="windowShell">
           <div class="windowControls">
             <div class="controlButton maxButton">
               <ion-icon name="resize-outline"></ion-icon>
@@ -117,70 +111,79 @@
               <ion-icon name="close"></ion-icon>
             </div>
           </div>
-          <div class="windowContent">
-            <div class="contentHeading"></div>
+          <div class="windowModule" data-window="web">
+              <div class="windowHeading standardHeading" style="--bg-color: rgb(255, 202, 148);">
+                <div class="standardHeadingText">Web Projects</div>
+              </div>
+              <div class="windowContent">
+                <p>Now THIS is text in windowContent!</p>
+              </div>
           </div>
-          <h2>Web Projects</h2>
-        </div>
-        <div class="window" data-window="blog">
-          <div class="windowControls">
-            <div class="controlButton maxButton">
-              <ion-icon name="resize-outline"></ion-icon>
+          <div class="windowModule" data-window="blog">
+              <div class="windowHeading standardHeading" style="--bg-color: rgb(174, 217, 228);">
+                <div class="standardHeadingText">Blog</div>
+              </div>
+              <div class="windowContent">
+                <p>Now THIS is text in windowContent!</p>
+              </div>
+          </div>
+          <div class="windowModule" data-window="art">
+              <div class="windowHeading standardHeading" style="--bg-color: rgb(255, 172, 172);">
+                <div class="standardHeadingText">Art</div>
+              </div>
+              <div class="windowContent">
+                <p>Now THIS is text in windowContent!</p>
+              </div>
+          </div>
+          <div class="windowModule" data-window="contact">
+              <div class="windowHeading standardHeading" style="--bg-color: rgb(159, 255, 180);">
+                <div class="standardHeadingText">Contact Me</div>
+              </div>
+              <div class="windowContent">
+                <p>Now THIS is text in windowContent!</p>
+              </div>
+          </div>
+          <div class="windowModule hasDarkHeading" data-window="info">
+            <div class="windowHeading" style="--bg-color: #333;">
+              <div class="brandHeadingText">
+                Koec<span class="tld">.io</span>
+              </div>
             </div>
-            <div class="controlButton closeButton">
-              <ion-icon name="close"></ion-icon>
+            <div class="windowContent">
+              <div class="windowRow">
+                <div class="infoCard">
+                  <h3 class="cardHeading">Why?</h3>
+                  <p>Koec.io is a front-end showcase.</p>
+                </div>
+                <div class="infoCard">
+                  <h3 class="cardHeading">Technologies</h3>
+                  <p>jQuery, Google Fonts, ionicons</p>
+                </div>
+                <div class="infoCard">
+                  <h3 class="cardHeading">License</h3>
+                  <p>Ask your mother!</p>
+                </div>
+              </div>
+              <div class="infoFooter">
+                <a href="github.com/kkoeckritz/koec-tv">More on GitHub</a>
+                <ion-icon name="logo-github" class="githubLogo"></ion-icon>
+              </div>
             </div>
           </div>
-          <div class="windowContent">
-            <div class="contentHeading"></div>
-          </div>
-          <h2>Blog</h2>
-        </div>
-        <div class="window" data-window="art">
-          <div class="windowControls">
-            <div class="controlButton maxButton">
-              <ion-icon name="resize-outline"></ion-icon>
-            </div>
-            <div class="controlButton closeButton">
-              <ion-icon name="close"></ion-icon>
-            </div>
-          </div>
-          <div class="windowContent">
-            <div class="contentHeading"></div>
-          </div>
-          <h2>Art</h2>
-        </div>
-        <div class="window" data-window="resume">
-          <div class="windowControls">
-            <div class="controlButton maxButton">
-              <ion-icon name="resize-outline"></ion-icon>
-            </div>
-            <div class="controlButton closeButton">
-              <ion-icon name="close"></ion-icon>
-            </div>
-          </div>
-          <div class="windowContent">
-            <div class="contentHeading"></div>
-          </div>
-          <h2>Resume</h2>
         </div>
       </div> <!-- /desktop -->
-
-      <!-- big img for testing preloader -->
-      <div class="col even"><img src="./assets/img/Beach_4K.png" alt="" style="display: none;"></div>
-
-    </div>
+    </div> <!-- /tvScreen -->
 
     <div class="tvFeatures">
-      <div class="webcam hasDesc" data-desc="It's all for show. For now.">
+      <div class="webcam hasDesc" data-desc="It's just for show. For now.">
         <div class="webcamLens"></div>
-        <div class="webcamLight">•</div>
+        <div class="webcamLight webcamLit">•</div>
       </div>
       <a href="/">
         <img src="./assets/img/bezelBrand.png" alt="Koec.io" class="bezelBrand hasDesc" data-desc="Need to reboot?">
       </a>
       <div class="powerButton pressed">
-        <div class="powerButtonLight lit">
+        <div class="powerButtonLight powerLit">
           <ion-icon name="power"></ion-icon>
         </div>
       </div>
