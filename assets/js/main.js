@@ -156,10 +156,23 @@ let desktop = {
 			clearInterval(desktop.descInt);
 			$desc.removeClass("typing");
 			$desc.removeClass("doneTyping");
-			$typer.stop().fadeOut(100).promise().done(() => {
+			$typer.stop().fadeOut(200).promise().done(() => {
 				$desc.text("");
 			});
 			$(".assistant").removeClass("focused");
+		});
+	},
+
+	setToggler: () => {
+		$(".dockToggler").click(() => {
+			$(".dockToggler").addClass("dockTogglerHidden");
+			$(".dock").toggleClass("dockHidden");
+			$(".dock").mouseleave(() => {
+				
+				$(".dockToggler").removeClass("dockTogglerHidden");
+				$(".dock").addClass("dockHidden");
+				$(".dock").off("mouseleave");
+			})
 		});
 	}
 };
@@ -179,11 +192,19 @@ let windowShell = {
 			windowModule.show();
 			$(".windowShell").removeClass("closed");
 
+			// check if shell is maximized but closed and needs dock hidden
+			if ($(".windowShell:hidden").length && $(".windowShell").hasClass("shellMaximized")) {
+				$(".dock").addClass("dockHidden");
+				$(".dockToggler").removeClass("dockTogglerHidden");
+			}
+
 			// check if module needs dark max button
 			if (windowModule.hasClass("hasDarkHeading")) {
 				$(":root").css("--color-max-button", "white");
+				$(":root").css("--color-max-hover", "#ffffff22");
 			} else {
 				$(":root").css("--color-max-button", "black");
+				$(":root").css("--color-max-hover", "#00000022");
 			}
 			
 			$(".windowShell").show();
@@ -193,13 +214,18 @@ let windowShell = {
 	setControls: () => {
 		// maximize button
 		$(".maxButton").click(() => {
-			$(".windowShell").toggleClass("maximized");
+			$(".windowShell").toggleClass("shellMaximized");
+			$(".windowContent").toggleClass("contentMaximized");
+			$(".dock").toggleClass("dockHidden");
+			$(".dockToggler").toggleClass("dockTogglerHidden");
 		});
 
 		// close button
 		$(".closeButton").click(() => {
 			$(".windowShell").addClass("closed");
 			$(".hasLaunch").removeClass("focused");
+			$(".dock").removeClass("dockHidden");
+			$(".dockToggler").addClass("dockTogglerHidden");
 			windowShell.closeTime = setTimeout(() => {
 				$(".windowShell").hide();
 			}, 200);
@@ -217,6 +243,7 @@ $(window).on("load", () => {
 	// desktop.setTextSelection();
 	desktop.setContextMenus();
 	desktop.setTyper();
+	desktop.setToggler();
 	windowShell.setLaunchers();
 	windowShell.setControls();
 });

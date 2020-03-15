@@ -16,6 +16,7 @@
   --color-base-3: #1ac;
   --color-text: #112;
   --color-max-button: black;
+  --color-max-hover: #00000010;
 
   --font-sans: "Roboto", "Open Sans", "Fira Sans", "Lucida Sans", "Lucida Sans Unicode", "Trebuchet MS", sans-serif;
   --font-serif: serif;
@@ -365,15 +366,24 @@ ion-icon {
   align-items: center;
   
   position: absolute;
-  bottom: 25px;
+  bottom: 0;
   left: 0;
   right: 0;
   width: 280px;
-  height: 50px;
+  height: auto;
   margin: 0 auto;
   z-index: 40;
 
+  border-bottom: 20px solid transparent;
   border-radius: 25px;
+
+  transition: bottom var(--duration-normal);
+}
+
+.dockHidden {
+  bottom: -85px;
+
+  pointer-events: none;
 }
 
 .dockButton {
@@ -394,9 +404,7 @@ ion-icon {
   border-radius: 50%;
   box-shadow: 0 2px 6px 0 #22222288, 0 -2px 0 #eee;
 
-  transition: opacity var(--duration-normal);
-  transition-timing-function: var(--chosen-timing-func);
-  shape-rendering: geometricPrecision;
+  transition: opacity var(--duration-normal) var(--chosen-timing-func);
 }
 .dockButton:hover {
   opacity: 1;
@@ -434,6 +442,43 @@ ion-icon {
   box-shadow: 1px 1px 0 var(--chosen-bg-color), -2px -2px 3px #22222233;
 
   transform: rotate(-135deg);
+}
+
+.dockToggler {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 280px;
+  height: 20px;
+  margin: 0 auto;
+  z-index: 40;
+
+  opacity: .5;
+  background: radial-gradient(white 60%, #999 90%);
+  color: var(--color-text);
+  font-size: 20pt;
+  text-align: center;
+  border-radius: 25px 25px 0 0;
+  cursor: pointer;
+
+  transition-property: bottom, opacity;
+  transition-duration: var(--duration-normal);
+  transition-timing-function: var(--chosen-timing-func);
+}
+.dockToggler:hover {
+  opacity: 1;
+}
+
+.dockTogglerHidden {
+  bottom: -25px;
+
+  pointer-events: none;
 }
 
 /* context features */
@@ -609,7 +654,7 @@ ion-icon {
   }
 }
 
-.maximized {
+.shellMaximized {
   width: 100%;
   height: 100%;
 
@@ -656,7 +701,7 @@ ion-icon {
   color: var(--color-max-button);
 }
 .maxButton:hover {
-  background-color: #00000030;
+  background-color: var(--color-max-hover);
 }
 
 .closeButton {
@@ -764,6 +809,12 @@ ion-icon {
   background-color: var(--chosen-bg-color);
   color: var(--chosen-fg-color);
   text-align: left;
+
+  transition: padding var(--duration-normal) var(--chosen-timing-func);
+}
+
+.contentMaximized {
+  padding: 20px 20px 40px 20px;
 }
 
 .windowRow {
@@ -781,10 +832,10 @@ ion-icon {
   justify-content: flex-start;
   align-content: center;
   
-  position: relative;
   width: 100%;
   height: 100%;
-  padding: 10px;
+  margin: 0 10px;
+  padding: 10px 10px;
 
   background-color: var(--chosen-bg-color);
   color: var(--chosen-fg-color);
@@ -794,6 +845,9 @@ ion-icon {
 }
 .infoCard:first-of-type, 
 .infoCard:last-of-type {
+  margin: 0;
+  padding: 10px 0;
+
   border-width: 0;
 }
 
@@ -815,6 +869,7 @@ ion-icon {
   
   width: 100%;
   height: 100px;
+  margin-top: 10px;
 
   background-color: #eee;
   font-family: var(--font-sans);
