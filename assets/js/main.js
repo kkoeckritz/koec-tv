@@ -47,10 +47,8 @@ let desktop = {
 	descInt: null,
 	selectedText: "",
 	cannedPhrases: [
-		"Don't mind the look, I'm Kris's assistant.",
-		"Click me for more about this site.",
-		"I only know a few canned phrases. This is one of them.",
-		"I'm paid generously, 20 bones an hour! *crickets*"
+		"Want to get in touch? Click here to find out how.",
+		"Hey... uh, wake me up in a minute, will ya?"
 	],
 
 	setContextControls: () => {
@@ -63,10 +61,25 @@ let desktop = {
 		})
 	},
 
-	// setTextSelection: () => {
-	// 	$(".windowShell").select(() => {
-	// 	});
-	// },
+	buildSelectionMenu: () => {
+		// add text to top
+
+		/* build links to...
+		   - MDN
+			 - Stack Overflow
+			 - Scotch ?
+			 - Smashing Magazine
+			 - CSS Tricks
+			 - YouTube
+		*/
+	},
+
+	setTextSelection: () => {
+		document.onselectionchange = () => {
+			desktop.selectedText = window.getSelection().toString();
+			console.log(desktop.selectedText);
+		};
+	},
 
 	setContextMenus: () => {
 		$(".hasContext").contextmenu((e) => {
@@ -74,12 +87,12 @@ let desktop = {
 			let $curMenu = null;
 			
 			// intercept context event & deploy custom menu
-			// IF desktop.textIsSelected...
-			if ($(e.target).closest(".windowShell").length) {
-				$menuTarget = $(".windowShell");
+			if (desktop.selectedText.length) {
+				desktop.buildSelectionMenu();
+				$curMenu = $(".selectionContext");
+			} else if ($(e.target).closest(".windowShell").length) {
 				$curMenu = $(".windowContext");
 			} else {
-				$menuTarget = $(".desktop");
 				$curMenu = $(".desktopContext");
 			}
 
@@ -113,7 +126,8 @@ let desktop = {
 		desktop.descInt = setInterval(() => {
 			let curDesc = $desc.text();
 			if (curDesc != descText) {
-				$desc.text(curDesc + [...descText[i]]);
+				$desc.text(curDesc + Array.from(descText)[i]);
+				console.log(descText[i]);
 			} else {
 				clearInterval(desktop.descInt);
 				$desc.removeClass("typing");
@@ -164,11 +178,13 @@ let desktop = {
 	},
 
 	setToggler: () => {
+		// show dock when toggler clicked
 		$(".dockToggler").click(() => {
 			$(".dockToggler").addClass("dockTogglerHidden");
-			$(".dock").toggleClass("dockHidden");
+			$(".dock").removeClass("dockHidden");
+
+			// show toggler once mouse leaves dock
 			$(".dock").mouseleave(() => {
-				
 				$(".dockToggler").removeClass("dockTogglerHidden");
 				$(".dock").addClass("dockHidden");
 				$(".dock").off("mouseleave");
@@ -180,7 +196,24 @@ let desktop = {
 let windowShell = {
 	closeTime: null,
 
+	configureWindow: (windowModule) => {
+			// check if shell is maximized but closed and needs dock hidden
+			if ($(".windowShell:hidden").length && $(".windowShell").hasClass("shellMaximized")) {
+				$(".dock").addClass("dockHidden");
+				$(".dockToggler").removeClass("dockTogglerHidden");
+			}
+
+			// check if module needs light max button, heading
+			if (windowModule.hasClass("hasDarkHeading")) {
+				$(":root").css({"--color-max-button": "white", "--color-max-hover": "#ffffff22", "--color-heading": "var(--color-light)"});
+
+			} else {
+				$(":root").css({"--color-max-button": "black", "--color-max-hover": "#00000022", "--color-heading": "var(--chosen-fg-color)"})
+			}
+	},
+
 	setLaunchers: () => {
+		// launch linked window module
 		$(".hasLaunch").click((e) => {
 			let moduleName = $(e.target).data("launch");
 			let windowModule = $(`[data-window="${moduleName}"]`);
@@ -189,26 +222,20 @@ let windowShell = {
 			$(e.target).addClass("focused")
 			clearTimeout(windowShell.closeTime);
 			$(".windowModule").hide();
-			windowModule.show();
 			$(".windowShell").removeClass("closed");
+			windowModule.show();
 
-			// check if shell is maximized but closed and needs dock hidden
-			if ($(".windowShell:hidden").length && $(".windowShell").hasClass("shellMaximized")) {
-				$(".dock").addClass("dockHidden");
-				$(".dockToggler").removeClass("dockTogglerHidden");
-			}
-
-			// check if module needs dark max button
-			if (windowModule.hasClass("hasDarkHeading")) {
-				$(":root").css("--color-max-button", "white");
-				$(":root").css("--color-max-hover", "#ffffff22");
-			} else {
-				$(":root").css("--color-max-button", "black");
-				$(":root").css("--color-max-hover", "#00000022");
-			}
+			windowShell.configureWindow(windowModule);
 			
 			$(".windowShell").show();
 		});
+	},
+
+	configureModuleColors: () => {
+		for (m of $(".windowModule").toArray()) {
+			let colorsArr = $(m).data("colors").toString().split(" ");
+			$(m).css({"--color-heading-bg": colorsArr[0], "--color-link-bg": colorsArr[1], "--color-selection-bg": colorsArr[2]});
+		}
 	},
 
 	setControls: () => {
@@ -240,10 +267,11 @@ let windowShell = {
 $(window).on("load", () => {
 	generic.doneLoading();
 	screen.setPower();
-	// desktop.setTextSelection();
+	desktop.setTextSelection();
 	desktop.setContextMenus();
 	desktop.setTyper();
 	desktop.setToggler();
 	windowShell.setLaunchers();
+	windowShell.configureModuleColors();
 	windowShell.setControls();
 });

@@ -25,7 +25,7 @@
 </head>
 <body>
   
-  <div class="tv">
+  <div class="tv zoomed">
 
     <div class="tvScreen">
       <div class="blank"></div>
@@ -49,9 +49,9 @@
         <div class="contextMenu desktopContext">
           <div class="contextHeading">BACKGROUND</div>
           <div class="contextContent col">
-            <div class="contextRow imgPreview imgPreview1 isSet hasDesc" data-img="1" data-desc="Abstract and colorful."></div>
-            <div class="contextRow imgPreview imgPreview2 hasDesc" data-img="2" data-desc="Abstract and muted."></div>
-            <div class="contextRow imgPreview imgPreview3 hasDesc" data-img="3" data-desc="Grayscale landscape."></div>
+            <div class="contextRow imgPreview imgPreview1 isSet hasDesc" data-img="1" data-desc="'Lawrence of Arabia'"></div>
+            <div class="contextRow imgPreview imgPreview2 hasDesc" data-img="2" data-desc="'Cherry Cola'"></div>
+            <div class="contextRow imgPreview imgPreview3 hasDesc" data-img="3" data-desc="A spur-of-the-moment snap from New Years Day 2013."></div>
           </div>
         </div>
 
@@ -68,22 +68,24 @@
           </div>
           <div class="contextHeading">COLORS</div>
           <div class="contextContent row">
-            <div class="colorPreview colorPreviewLight hasDesc" data-desc="The default light theme. A little tired if you ask me.">A</div>
-            <div class="colorPreview colorPreviewDark hasDesc" data-desc="A dark theme, for the hackers.">A</div>
+            <div class="colorPreview colorPreviewLight hasDesc" data-desc="The boring light theme. What is this, a hospital?">A</div>
+            <div class="colorPreview colorPreviewDark hasDesc" data-desc="The dark theme. A virtual hacker's basement.">A</div>
             <div class="colorPreview colorPreviewContrast hasDesc" data-desc="A high-contrast theme for compromised eyes.">A</div>
           </div>
         </div>
 
-        <!-- <div class="contextMenu selectionContext">
-
-        </div> -->
+        <div class="contextMenu selectionContext">
+          <div class="contextHeading">Selection</div>
+          <div class="contextContent col">
+            <p>hey</p>
+          </div>
+        </div>
         
         <div class="assistant">
-          <span class="assistantFace hasLaunch hasDesc" data-launch="info">
-            <ion-icon name="skull"></ion-icon>
+          <span class="assistantFace hasLaunch hasDesc" data-launch="contact">
           </span>
           <div class="assistantTyper">
-            <h3 class="assistantText" id="nav_desc"></h3>
+            <h3 class="assistantText"></h3>
           </div>
         </div>
 
@@ -97,7 +99,7 @@
           <div class="dockButton hasLaunch hasDesc" data-launch="art" data-label="Art" data-desc="They'll call anything art these days, huh?">
             <ion-icon name="color-filter"></ion-icon>
           </div>
-          <div class="dockButton hasLaunch hasDesc" data-launch="contact" data-label="Contact me" data-desc="Learn about and contact Kris.">
+          <div class="dockButton hasLaunch hasDesc" data-launch="info" data-label="About koec.io" data-desc="Learn about and contact Kris.">
             <ion-icon name="person"></ion-icon>
           </div>
         </div>
@@ -114,40 +116,46 @@
               <ion-icon name="close"></ion-icon>
             </div>
           </div>
-          <div class="windowModule" data-window="web">
-              <div class="windowHeading standardHeading" style="--bg-color: rgb(255, 202, 148);">
-                <div class="standardHeadingText">Web Projects</div>
-              </div>
-              <div class="windowContent">
-                <p>Now THIS is text in windowContent!</p>
-              </div>
-          </div>
-          <div class="windowModule" data-window="blog">
-              <div class="windowHeading standardHeading" style="--bg-color: rgb(174, 217, 228);">
-                <div class="standardHeadingText">Blog</div>
-              </div>
-              <div class="windowContent">
-                <p>Now THIS is text in windowContent!</p>
-              </div>
-          </div>
-          <div class="windowModule" data-window="art">
-              <div class="windowHeading standardHeading" style="--bg-color: rgb(255, 172, 172);">
-                <div class="standardHeadingText">Art</div>
-              </div>
-              <div class="windowContent">
-                <p>Now THIS is text in windowContent!</p>
-              </div>
-          </div>
-          <div class="windowModule" data-window="contact">
-              <div class="windowHeading standardHeading" style="--bg-color: rgb(159, 255, 180);">
+          <div class="windowModule" data-window="contact" data-colors="var(--color-light) #fd7 #aaddff">
+              <div class="windowHeading standardHeading">
                 <div class="standardHeadingText">Contact Me</div>
               </div>
               <div class="windowContent">
-                <p>Now THIS is text in windowContent!</p>
+                <div class="contactFace"></div>
               </div>
           </div>
-          <div class="windowModule hasDarkHeading" data-window="info">
-            <div class="windowHeading" style="--bg-color: #333;">
+          <div class="windowModule hasDarkHeading" data-window="web" data-colors="#3C4E39 #fd7 #A3C98D">
+              <div class="windowHeading standardHeading">
+                <div class="standardHeadingText">Web Portfolio</div>
+              </div>
+              <div class="windowContent">
+                <p class="windowText">Now THIS is text in windowContent!</p>
+                <p class="windowText">And here is a test of <a href="somesite.com" class="refLink">a refLink</a></p>
+                <p class="windowText">Here's a <a href="somesite.com" class="refLink">much longer refLink to test the gradient</a></p>
+              </div>
+          </div>
+          <div class="windowModule hasDarkHeading" data-window="blog" data-colors="#3D4758 #fd7 #98c0ef">
+              <div class="windowHeading standardHeading">
+                <div class="standardHeadingText">Blog</div>
+              </div>
+              <div class="windowContent">
+                <p class="windowText">Now THIS is text in windowContent!</p>
+                <p class="windowText">And here is a test of <a href="somesite.com" class="refLink">a refLink</a></p>
+                <p class="windowText">Here's a <a href="somesite.com" class="refLink">much longer refLink to test the gradient</a></p>
+              </div>
+          </div>
+          <div class="windowModule hasDarkHeading" data-window="art" data-colors="#7E383B #fd7 #e0989B">
+              <div class="windowHeading standardHeading">
+                <div class="standardHeadingText">Art</div>
+              </div>
+              <div class="windowContent">
+                <p class="windowText">Now THIS is text in windowContent!</p>
+                <p class="windowText">And here is a test of <a href="somesite.com" class="refLink">a refLink</a></p>
+                <p class="windowText">Here's a <a href="somesite.com" class="refLink">much longer refLink to test the gradient</a></p>
+              </div>
+          </div>
+          <div class="windowModule hasDarkHeading" data-window="info" data-colors="#333333 #fd7 #aaddff">
+            <div class="windowHeading">
               <div class="brandHeadingText">
                 Koec<span class="tld">.io</span>
               </div>

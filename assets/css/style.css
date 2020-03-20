@@ -1,7 +1,7 @@
 /* global pseudo-selectors */
 :root {
-  /* relative to index.html, NOT to this file */
-  --img-bg-1: url("./assets/img/bg1.jpg");
+  /* paths relative to index.html, NOT to this file */
+  --img-bg-1: url("./assets/img/bg1.png");
   --img-bg-2: url("./assets/img/bg2.jpg");
   --img-bg-3: url("./assets/img/bg3.jpg");
 
@@ -14,6 +14,7 @@
   --color-base-1: white;
   --color-base-2: #b01b29;
   --color-base-3: #1ac;
+  --color-heading: var(--chosen-fg-color);
   --color-text: #112;
   --color-max-button: black;
   --color-max-hover: #00000010;
@@ -134,6 +135,8 @@ ion-icon {
   border-style: solid;
 }
 
+
+
 /* screen features */
 .tvScreen{
   display: flex;
@@ -243,7 +246,7 @@ ion-icon {
   height: calc(100% - 4px);
 
   background-color: #757575;
-  background-image: url("../img/bg1.jpg");
+  background-image: url("../img/bg1.png");
   background-size: auto;
   background-repeat: no-repeat;
   background-position: center;
@@ -257,7 +260,7 @@ ion-icon {
   overflow: hidden;
   z-index: -100;
 
-  content: url("../img/bg1.jpg") url("../img/bg2.jpg") url("../img/bg3.jpg")
+  content: url("../img/bg1.jpg") url("../img/bg2.jpg") url("../img/bg3.jpg");
 }
 
 .assistant {
@@ -272,9 +275,11 @@ ion-icon {
   height: auto;
   margin: 20px;
   z-index: 40;
+
   opacity: .5;
   
-  transition: opacity var(--duration-normal);
+  transition-property: opacity, filter;
+  transition-duration: var(--duration-normal);
   transition-timing-function: var(--chosen-timing-func);
 }
 
@@ -292,12 +297,36 @@ ion-icon {
   margin-right: 20px;
   z-index: 21;
   
-  background: radial-gradient(white 60%, #999 90%);
-  color: var(--color-text);
+  background: url(../img/head-crop.png), radial-gradient(white 60%, #ddd 80%);
+  background-size: contain;
+  background-position: center;
+  color: #ffffe8;
   font-size: 30pt;
   text-align: center;
   border-radius: 50%;
-  box-shadow: 0 2px 6px 0 #22222288, 0 -2px 0 #eee;
+  box-shadow: 0 2px 6px 0 #22222288;
+}
+
+.spazzed {
+  animation: shake-face 750ms var(--chosen-timing-func) forwards;
+}
+
+@keyframes shake-face {
+  20% {
+    transform: translateY(1px);
+  }
+  40% {
+    transform: translateY(-3px);
+  }
+  60% {
+    transform: translateY(2px);
+  }
+  80% {
+    transform: translateY(-5px);
+  }
+  100% {
+    transform: none;
+  }
 }
 
 .assistantTyper {
@@ -308,7 +337,7 @@ ion-icon {
 
   position: relative;
   height: auto;
-  min-height: 30px;
+  min-height: 45px;
   padding: 0 20px;
   z-index: 20;
 
@@ -369,12 +398,15 @@ ion-icon {
   bottom: 0;
   left: 0;
   right: 0;
+  box-sizing: content-box;
   width: 280px;
   height: auto;
   margin: 0 auto;
   z-index: 40;
 
-  border-bottom: 20px solid transparent;
+  border-width: 40px 40px 20px 40px;
+  border-style: solid;
+  border-color: transparent;
   border-radius: 25px;
 
   transition: bottom var(--duration-normal);
@@ -397,7 +429,7 @@ ion-icon {
   height: 60px;
 
   opacity: .5;
-  background: radial-gradient(white 60%, #999 90%);
+  background: radial-gradient(white 60%, #ddd 80%);
   color: var(--color-text);
   font-size: 30pt;
   text-align: center;
@@ -543,7 +575,7 @@ ion-icon {
   margin-bottom: 10px;
 
   background-color: black;
-  background-position: bottom;
+  background-position: center;
   background-repeat: no-repeat;
 
   border: 2px solid #ddd;
@@ -556,7 +588,7 @@ ion-icon {
 }
 
 .imgPreview1 {
-  background-image: url("../img/previewbg1.jpg");
+  background-image: url("../img/previewbg1.png");
 }
 
 .imgPreview2 {
@@ -632,6 +664,7 @@ ion-icon {
   min-width: 350px;
   height: 50%;
   z-index: 30;
+  overflow: hidden;
 
   background-color: var(--color-light);
   color: var(--color-text);
@@ -721,8 +754,15 @@ ion-icon {
   height: 100%;
 }
 .windowModule *::selection {
-  background-color: blue;
-  color: blue;
+  background-color: var(--color-selection-bg);
+}
+.windowModule a::selection {
+  color: white;
+  border-bottom: 1px solid var(--color-selection-bg);
+}
+
+.hadDarkHeading {
+  color: white;
 }
 
 .windowHeading {
@@ -733,7 +773,8 @@ ion-icon {
 
   width: 100%;
 
-  background-color: var(--bg-color);
+  background-color: var(--color-heading-bg);
+  color: var(--color-heading);
   font-family: var(--font-sans);
 
   border-radius: 5px 5px 0 0;
@@ -747,7 +788,7 @@ ion-icon {
   position: relative;
   height: 100px;
 
-  color: var(--chosen-fg-color);
+
   font-size: 30pt;
   font-weight: 700;
   text-align: center;
@@ -755,9 +796,10 @@ ion-icon {
 
 .brandHeadingText {
   position: relative;
-  
-  color: white;
-  font-size: 72pt;
+  height: 100px;
+  z-index: 0;
+
+  font-size: 56pt;
   font-weight: 400;
   text-shadow: none;
   letter-spacing: -6px;
@@ -772,12 +814,13 @@ ion-icon {
 }
 .brandHeadingText::after {
   position: absolute;
-  top: 46%;
-  right: 7px;
+  top: 40%;
+  right: 1px;
+  z-index: -1;
   
   content: "V2";
   color: var(--color-background);
-  font-size: 20pt;
+  font-size: 21pt;
   letter-spacing: -2px;
   text-shadow: none;
 
@@ -817,6 +860,7 @@ ion-icon {
   padding: 20px 20px 40px 20px;
 }
 
+/* content containers */
 .windowRow {
   display: flex;
   flex-direction: row;
@@ -824,6 +868,24 @@ ion-icon {
 
   width: 100%;
   height: 100%;
+}
+
+.refLink{
+  display: inline-block;
+  
+  line-height: 96%;
+  
+  background-image: linear-gradient(120deg, var(--color-link-bg) 0%, var(--color-link-bg) 50%);
+  background-size: 0 100%;
+  background-position: bottom left;
+  background-repeat: no-repeat;
+  border-bottom: 1px solid var(--color-link-bg);
+
+  transition: background-size var(--duration-normal);
+  transition-timing-function: var(--chosen-timing-func);
+}
+.refLink:hover {
+  background-size: 100% 100%;
 }
 
 .infoCard {
@@ -929,6 +991,8 @@ ion-icon {
 
 .focused {
   opacity: 1;
+  background-blend-mode: normal;
+  filter: none;
 }
 
 .hasLaunch {
@@ -1175,31 +1239,4 @@ ion-icon {
 	to {
 		transform: rotate(480deg);
 	}
-}
-
-.refLink{
-  background-image: linear-gradient(120deg, var(--color-background) 0%, var(--color-background) 100%);
-  background-size: 100% .1em;
-  background-position: 0 100%;
-  background-repeat: no-repeat;
-
-  transition: background-size var(--duration-fast);
-  transition-timing-function: var(--chosen-timing-func);
-}
-.refLink:hover {
-  background-size: 100% 100%;
-  color: white;
-}
-
-/* important IDs */
-#section_1 {
-  display: none;
-}
-
-#section_2 {
-  display: none;
-}
-
-#section_3 {
-  display: none;
 }
