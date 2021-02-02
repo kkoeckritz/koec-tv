@@ -110,3 +110,6 @@ assets/masters/*.*
 # firebase things
 public/
 firebase-debug.log
+
+# scratchpad
+scratch.html

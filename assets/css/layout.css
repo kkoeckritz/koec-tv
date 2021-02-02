@@ -19,53 +19,63 @@
   flex-direction: column;
 }
 
+.w25 {
+  width: 25%;
+}
 .w33 {
-  width: 33.3%;
+  width: calc(100% / 3);
+}
+.w50 {
+  width: 50%;
+}
+.w100 {
+  width: 100%;
+}
+
+.h25 {
+  height: 25%;
+}
+.h33 {
+  height: calc(100% / 3);
+}
+.h50 {
+  height: 50%;
+}
+.h100 {
+  height: 100%;
 }
 
 .start {
   justify-content: flex-start;
 }
-
 .center {
   justify-content: center;
 }
-
 .end {
   justify-content: flex-end;
 }
-
 .even {
   justify-content: space-evenly;
 }
-
 .space {
   justify-content: space-between;
 }
-
-.fw100 {
-  font-weight: 100;
+.around {
+  justify-content: space-around;
 }
-.fw200 {
-  font-weight: 200;
-}
-.fw300 {
-  font-weight: 300;
-}
-.fw400 {
-  font-weight: 400;
-}
-.fw500 {
-  font-weight: 500;
-}
-.fw600 {
-  font-weight: 600;
+.stretch {
+  justify-content: stretch;
 }
 
-.above {
-  z-index: 10;
+.alignStart {
+  align-items: flex-start;
 }
-
-.below {
-  z-index: 8;
+.alignCenter {
+  align-items: center;
+}
+.alignEnd {
+  align-items: flex-end;
+}
+.alignStretch {
+  align-items: stretch;
 }

@@ -16,7 +16,7 @@ let generic = {
 		$(".blank").fadeOut(1000);
 		$(".desktop").hide();
 		$(".assistantTyper").hide();
-		$(".contextMenu").hide();
+		$(".contextShell").hide();
 		$(".windowModule").hide();
 		$(".windowShell").hide();
 	},
@@ -27,7 +27,7 @@ let generic = {
 			$(".desktop").fadeIn(500);
 		});
 
-		$(".webcamLight").addClass("blinking");
+		$(".webcamLight").addClass("webcamLit");
 	}
 };
 
@@ -82,35 +82,37 @@ let desktop = {
 	},
 
 	setContextMenus: () => {
+		$shell = $(".contextShell");
+		
 		$(".hasContext").contextmenu((e) => {
-			let $menuTarget = null;
 			let $curMenu = null;
-			
-			// intercept context event & deploy custom menu
-			if (desktop.selectedText.length) {
-				desktop.buildSelectionMenu();
-				$curMenu = $(".selectionContext");
-			} else if ($(e.target).closest(".windowShell").length) {
-				$curMenu = $(".windowContext");
-			} else {
-				$curMenu = $(".desktopContext");
-			}
 
 			e.stopImmediatePropagation();
 			e.preventDefault();
 			$(".contextMenu").hide();
-			$curMenu.css({top: e.clientY, left: e.clientX});
+			
+			// intercept context event & deploy custom menu
+			if (desktop.selectedText.length) {
+				desktop.buildSelectionMenu();
+				$curMenu = $("[data-menu='selection']");
+			} else if ($(e.target).closest(".windowShell").length) {
+				desktop.setContextControls();
+				$curMenu = $("[data-menu='window']");
+			} else {
+				desktop.setContextControls();
+				$curMenu = $("[data-menu='desktop']");
+			}
+
 			$curMenu.show();
+			$shell.css({top: e.clientY, left: e.clientX});
+			$shell.show();
 			
 			// allow click elsewhere to close menu
 			$(".desktop").on("mousedown", (e) => {
-				if (!($(e.target).closest(".contextMenu").length)) {
-					$(".contextMenu").hide();
+				if (!($(e.target).closest(".contextShell").length)) {
+					$shell.hide();
 				}
 			});
-
-			// call to set up menu listeners
-			desktop.setContextControls();
 
 			return false;
 		});
@@ -127,7 +129,6 @@ let desktop = {
 			let curDesc = $desc.text();
 			if (curDesc != descText) {
 				$desc.text(curDesc + Array.from(descText)[i]);
-				console.log(descText[i]);
 			} else {
 				clearInterval(desktop.descInt);
 				$desc.removeClass("typing");
@@ -145,6 +146,8 @@ let desktop = {
 
 			// raise opacity on assistant
 			$typer.stop().show();
+			$desc.removeClass("typing");
+			$desc.removeClass("doneTyping");
 			$typer.css("opacity", "1");
 			$desc.text("…");
 			$(".assistant").addClass("focused");
@@ -168,10 +171,10 @@ let desktop = {
 			const $desc = $(".assistantText");
 			clearTimeout(desktop.waitTime);
 			clearInterval(desktop.descInt);
-			$desc.removeClass("typing");
-			$desc.removeClass("doneTyping");
 			$typer.stop().fadeOut(200).promise().done(() => {
 				$desc.text("");
+				$desc.removeClass("typing");
+				$desc.removeClass("doneTyping");
 			});
 			$(".assistant").removeClass("focused");
 		});

@@ -9,8 +9,8 @@
 
     <!-- jquery, ionicons -->
     <script src="./assets/js/jQuery-3.4.1.min.js"></script>
-    <script type="module" src="https://unpkg.com/ionicons@5.0.0/dist/ionicons/ionicons.esm.js"></script>
-    <script nomodule="" src="https://unpkg.com/ionicons@5.0.0/dist/ionicons/ionicons.js"></script>  
+    <script type="module" src="https://unpkg.com/ionicons@5.4.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule="" src="https://unpkg.com/ionicons@5.4.0/dist/ionicons/ionicons.js"></script>
 
     <!-- styles, fonts, favicon -->
     <link rel="stylesheet" href="./assets/css/layout.css">
@@ -25,9 +25,9 @@
 </head>
 <body>
   
-  <div class="tv zoomed">
+  <div class="monitor zoomed">
 
-    <div class="tvScreen">
+    <div class="monitorScreen">
       <div class="blank"></div>
       <div class="preloader">
         <div class="row center">
@@ -44,40 +44,40 @@
         </div>
       </div>
       
-      <div class="desktop hasContext" data-context="desktop">
+      <div class="desktop hasContext">
 
-        <div class="contextMenu desktopContext">
-          <div class="contextHeading">BACKGROUND</div>
-          <div class="contextContent col">
-            <div class="contextRow imgPreview imgPreview1 isSet hasDesc" data-img="1" data-desc="'Lawrence of Arabia'"></div>
-            <div class="contextRow imgPreview imgPreview2 hasDesc" data-img="2" data-desc="'Cherry Cola'"></div>
-            <div class="contextRow imgPreview imgPreview3 hasDesc" data-img="3" data-desc="A spur-of-the-moment snap from New Years Day 2013."></div>
-          </div>
-        </div>
-
-        <div class="contextMenu windowContext">
-          <div class="contextHeading">FONT</div>
-          <div class="contextContent">
-            <div class="tinyButton">
-              <ion-icon name="remove"></ion-icon>
-            </div>
-            <h2 class="fontPreview">Aa</h2>
-            <div class="tinyButton">
-              <ion-icon name="add"></ion-icon>
+        <div class="contextShell">
+          <div class="contextMenu" data-menu="desktop">
+            <div class="contextHeading">BACKGROUND</div>
+            <div class="contextContent col">
+              <div class="contextRow imgPreview imgPreview1 isSet hasDesc" data-img="1" data-desc="'Lawrence of Arabia'"></div>
+              <div class="contextRow imgPreview imgPreview2 hasDesc" data-img="2" data-desc="'Cherry Cola'"></div>
+              <div class="contextRow imgPreview imgPreview3 hasDesc" data-img="3" data-desc="San Francisco, 2013"></div>
             </div>
           </div>
-          <div class="contextHeading">COLORS</div>
-          <div class="contextContent row">
-            <div class="colorPreview colorPreviewLight hasDesc" data-desc="The boring light theme. What is this, a hospital?">A</div>
-            <div class="colorPreview colorPreviewDark hasDesc" data-desc="The dark theme. A virtual hacker's basement.">A</div>
-            <div class="colorPreview colorPreviewContrast hasDesc" data-desc="A high-contrast theme for compromised eyes.">A</div>
+          <div class="contextMenu" data-menu="window">
+            <div class="contextHeading">FONT</div>
+            <div class="contextContent">
+              <div class="tinyButton">
+                <ion-icon name="remove"></ion-icon>
+              </div>
+              <h2 class="fontPreview">Aa</h2>
+              <div class="tinyButton">
+                <ion-icon name="add"></ion-icon>
+              </div>
+            </div>
+            <div class="contextHeading">COLORS</div>
+            <div class="contextContent row">
+              <div class="colorPreview colorPreviewLight hasDesc" data-desc="The boring light theme. What is this, a hospital?">A</div>
+              <div class="colorPreview colorPreviewDark hasDesc" data-desc="The dark theme. A virtual hacker's basement.">A</div>
+              <div class="colorPreview colorPreviewContrast hasDesc" data-desc="A high-contrast theme for compromised eyes.">A</div>
+            </div>
           </div>
-        </div>
-
-        <div class="contextMenu selectionContext">
-          <div class="contextHeading">Selection</div>
-          <div class="contextContent col">
-            <p>hey</p>
+          <div class="contextMenu" data-menu="selection">
+            <div class="contextHeading">Selection</div>
+            <div class="contextContent col">
+              <p>hey</p>
+            </div>
           </div>
         </div>
         
@@ -93,14 +93,14 @@
           <div class="dockButton hasLaunch hasDesc" data-launch="web" data-label="Web Development" data-desc="This is probably what you're here for.">
             <ion-icon name="layers"></ion-icon>
           </div>
-          <div class="dockButton hasLaunch hasDesc" data-launch="blog" data-label="Blog" data-desc="He has opinions, ">
-            <ion-icon name="megaphone"></ion-icon>
+          <div class="dockButton hasLaunch hasDesc" data-launch="blog" data-label="Blog" data-desc="Coming soon - a blog no one will read.">
+            <ion-icon name="newspaper"></ion-icon>
           </div>
-          <div class="dockButton hasLaunch hasDesc" data-launch="art" data-label="Art" data-desc="They'll call anything art these days, huh?">
+          <div class="dockButton hasLaunch hasDesc" data-launch="art" data-label="Art" data-desc="Coming soon - an art gallery.">
             <ion-icon name="color-filter"></ion-icon>
           </div>
-          <div class="dockButton hasLaunch hasDesc" data-launch="info" data-label="About koec.io" data-desc="Learn about and contact Kris.">
-            <ion-icon name="person"></ion-icon>
+          <div class="dockButton hasLaunch hasDesc" data-launch="info" data-label="About koec.io" data-desc="What's the point of this website anyway? Answers coming soon.">
+            <ion-icon name="information"></ion-icon>
           </div>
         </div>
         <div class="dockToggler dockTogglerHidden">
@@ -116,61 +116,58 @@
               <ion-icon name="close"></ion-icon>
             </div>
           </div>
-          <div class="windowModule" data-window="contact" data-colors="var(--color-light) #fd7 #aaddff">
-              <div class="windowHeading standardHeading">
-                <div class="standardHeadingText">Contact Me</div>
-              </div>
-              <div class="windowContent">
+          <div class="windowModule" data-window="contact" data-colors="var(--color-light) #fd7 #2a2123">
+            <div class="windowContent fadeIn slideUp center alignCenter">
+              <div class="row">
                 <div class="contactFace"></div>
               </div>
+              <div class="row">
+                <span class="contactName">Kris</span>
+                <span class="contactName">Koeckritz</span>
+              </div>
+            </div>
           </div>
-          <div class="windowModule hasDarkHeading" data-window="web" data-colors="#3C4E39 #fd7 #A3C98D">
-              <div class="windowHeading standardHeading">
-                <div class="standardHeadingText">Web Portfolio</div>
-              </div>
-              <div class="windowContent">
-                <p class="windowText">Now THIS is text in windowContent!</p>
-                <p class="windowText">And here is a test of <a href="somesite.com" class="refLink">a refLink</a></p>
-                <p class="windowText">Here's a <a href="somesite.com" class="refLink">much longer refLink to test the gradient</a></p>
-              </div>
+          <div class="windowModule hasDarkHeading" data-window="web" data-colors="#3C4E39 #ffd870 #A3C98D">
+            <div class="windowHeading standardHeading">
+              <div class="standardHeadingText">Web Portfolio</div>
+            </div>
+            <div class="windowContent fadeIn slideUp">
+              
+            </div>
           </div>
-          <div class="windowModule hasDarkHeading" data-window="blog" data-colors="#3D4758 #fd7 #98c0ef">
-              <div class="windowHeading standardHeading">
-                <div class="standardHeadingText">Blog</div>
-              </div>
-              <div class="windowContent">
-                <p class="windowText">Now THIS is text in windowContent!</p>
-                <p class="windowText">And here is a test of <a href="somesite.com" class="refLink">a refLink</a></p>
-                <p class="windowText">Here's a <a href="somesite.com" class="refLink">much longer refLink to test the gradient</a></p>
-              </div>
+          <div class="windowModule hasDarkHeading" data-window="blog" data-colors="#3D4758 #ffd870 #98c0ef">
+            <div class="windowHeading standardHeading">
+              <div class="standardHeadingText">Blog</div>
+            </div>
+            <div class="windowContent center alignCenter">
+              <h1 class="underConstruction">UNDER CONSTRUCTION</h1>
+            </div>
           </div>
-          <div class="windowModule hasDarkHeading" data-window="art" data-colors="#7E383B #fd7 #e0989B">
-              <div class="windowHeading standardHeading">
-                <div class="standardHeadingText">Art</div>
-              </div>
-              <div class="windowContent">
-                <p class="windowText">Now THIS is text in windowContent!</p>
-                <p class="windowText">And here is a test of <a href="somesite.com" class="refLink">a refLink</a></p>
-                <p class="windowText">Here's a <a href="somesite.com" class="refLink">much longer refLink to test the gradient</a></p>
-              </div>
+          <div class="windowModule hasDarkHeading" data-window="art" data-colors="#7E383B #ffd870 #e0989B">
+            <div class="windowHeading standardHeading">
+              <div class="standardHeadingText">Art</div>
+            </div>
+            <div class="windowContent center alignCenter">
+              <h1 class="underConstruction">UNDER CONSTRUCTION</h1>
+            </div>
           </div>
-          <div class="windowModule hasDarkHeading" data-window="info" data-colors="#333333 #fd7 #aaddff">
+          <div class="windowModule hasDarkHeading" data-window="info" data-colors="#333333 #ffd870 #aaddff">
             <div class="windowHeading">
               <div class="brandHeadingText">
                 Koec<span class="tld">.io</span>
               </div>
             </div>
-            <div class="windowContent">
+            <div class="windowContent fadeIn slideUp">
               <div class="windowRow">
-                <div class="infoCard">
+                <div class="infoCol">
                   <h3 class="cardHeading">Why?</h3>
                   <p>Koec.io is a front-end showcase.</p>
                 </div>
-                <div class="infoCard">
+                <div class="infoCol">
                   <h3 class="cardHeading">Technologies</h3>
                   <p>jQuery, Google Fonts, ionicons</p>
                 </div>
-                <div class="infoCard">
+                <div class="infoCol">
                   <h3 class="cardHeading">License</h3>
                   <p>MIT</p>
                 </div>
@@ -185,10 +182,10 @@
       </div> <!-- /desktop -->
     </div> <!-- /tvScreen -->
 
-    <div class="tvFeatures">
+    <div class="monitorFeatures">
       <div class="webcam hasDesc" data-desc="It's just for show. For now.">
         <div class="webcamLens"></div>
-        <div class="webcamLight webcamLit">•</div>
+        <div class="webcamLight">•</div>
       </div>
       <a href="/">
         <img src="./assets/img/bezelBrand.png" alt="Koec.io" class="bezelBrand hasDesc" data-desc="Need to reboot?">
