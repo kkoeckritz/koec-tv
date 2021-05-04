@@ -14,10 +14,10 @@ let generic = {
 	},
 
 	buildRouteList: () => {
-		let launchObjects = $(".hasLaunch");
-		for (l in launchObjects) {
-			generic.push(l.dataset.launch);
-		}
+		$(".hasLaunch").each((i, el) => {
+			console.log($(el).data("launch"));
+			generic.routeList.push($(el).data("launch"));
+		});
 	},
 
 	getRoute: (routeList) => {
@@ -51,7 +51,10 @@ let generic = {
 		generic.buildRouteList();
 		setTimeout(() => {
 			const initialRoute = generic.getRoute(generic.routeList);
-			windowShell.launchModule(initialRoute);
+			if (initialRoute) {
+				windowShell.launchModule(initialRoute);
+			} else {
+			}
 		}, 1500);
 		$(".webcamLight").addClass("webcamLit");
 	}
