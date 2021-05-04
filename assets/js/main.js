@@ -1,4 +1,5 @@
 let generic = {
+	routeList: [],
 	isInView: (e) => {
 		if (typeof jQuery === "function" && e instanceof jQuery) {
 			el = el[0];
@@ -12,6 +13,24 @@ let generic = {
 		);
 	},
 
+	buildRouteList: () => {
+		let launchObjects = $(".hasLaunch");
+		for (l in launchObjects) {
+			generic.push(l.dataset.launch);
+		}
+	},
+
+	getRoute: (routeList) => {
+    const fullRoute = window.location.pathname;
+    const reqRoute = fullRoute.slice(1);
+
+    if (routeList.indexOf(reqRoute) !== -1) {
+      return reqRoute;
+    } else {
+      return null;
+    }
+  },
+
 	prepareDesktop: () => {
 		$(".blank").fadeOut(1000);
 		$(".desktop").hide();
@@ -20,6 +39,7 @@ let generic = {
 		$(".windowModule").hide();
 		$(".windowShell").hide();
 	},
+
 	doneLoading: () => {
 		$(".preloaderText").text("WELCOME");
 		$(".preloaderDotZone").addClass("hide");
@@ -27,6 +47,12 @@ let generic = {
 			$(".desktop").fadeIn(500);
 		});
 
+		// open module specified by client route
+		generic.buildRouteList();
+		setTimeout(() => {
+			const initialRoute = generic.getRoute(generic.routeList);
+			windowShell.launchModule(initialRoute);
+		}, 1500);
 		$(".webcamLight").addClass("webcamLit");
 	}
 };
@@ -55,10 +81,26 @@ let desktop = {
 		$(".imgPreview").click((e) => {
 			let newBg = $(e.target).data("img");
 			$(".desktop").css("background-image", `var(--img-bg-${newBg})`);
-
 			$(".imgPreview").removeClass("isSet");
 			$(e.target).addClass("isSet");
-		})
+		});
+
+		// set .optionBox defaults
+		$(".optionBox[data-option='0']").prop("checked", "true");
+
+		$(".optionBox").change((e) => {
+			let optNum = $(e.target).data("option");
+			if (optNum === 0) {
+				console.log("> correct box!");
+				if ($(e.target).is(":checked")) {
+					$(".desktop").removeClass("noTrans");
+				} else {
+					$(".desktop").addClass("noTrans");
+				}
+			} else {
+				console.log("wrong box!");
+			}
+		});
 	},
 
 	buildSelectionMenu: () => {
@@ -74,6 +116,7 @@ let desktop = {
 		*/
 	},
 
+	// GET ON IT!
 	setTextSelection: () => {
 		document.onselectionchange = () => {
 			desktop.selectedText = window.getSelection().toString();
@@ -96,10 +139,8 @@ let desktop = {
 				desktop.buildSelectionMenu();
 				$curMenu = $("[data-menu='selection']");
 			} else if ($(e.target).closest(".windowShell").length) {
-				desktop.setContextControls();
 				$curMenu = $("[data-menu='window']");
 			} else {
-				desktop.setContextControls();
 				$curMenu = $("[data-menu='desktop']");
 			}
 
@@ -215,22 +256,26 @@ let windowShell = {
 			}
 	},
 
+	// launch linked window module
+	launchModule: (moduleName) => {
+		const windowModule = $(`[data-window="${moduleName}"]`);
+
+		$(".hasLaunch").removeClass("focused");
+		$(`.dockButton[data-launch=${moduleName}]`).addClass("focused")
+		clearTimeout(windowShell.closeTime);
+		$(".windowModule").hide();
+
+		$(".windowShell").removeClass("closed");
+		windowModule.show();
+		windowShell.configureWindow(windowModule);
+		$(".windowShell").show();
+	},
+
 	setLaunchers: () => {
-		// launch linked window module
 		$(".hasLaunch").click((e) => {
-			let moduleName = $(e.target).data("launch");
-			let windowModule = $(`[data-window="${moduleName}"]`);
+			const moduleName = $(e.target).data("launch");
 
-			$(".hasLaunch").removeClass("focused");
-			$(e.target).addClass("focused")
-			clearTimeout(windowShell.closeTime);
-			$(".windowModule").hide();
-			$(".windowShell").removeClass("closed");
-			windowModule.show();
-
-			windowShell.configureWindow(windowModule);
-			
-			$(".windowShell").show();
+			windowShell.launchModule(moduleName)
 		});
 	},
 
@@ -263,6 +308,19 @@ let windowShell = {
 	}
 }
 
+let components = {
+	setCardClick: () => {
+		$(".smCard").click((e) => {
+			if ($(e.target).hasClass("chosenCard")) {
+				$(e.target).removeClass("chosenCard");
+			} else {
+				$(".smCard").removeClass("chosenCard");
+				$(e.target).addClass("chosenCard");
+			}
+		});
+	}
+}
+
 // before content loaded
 	generic.prepareDesktop();
 
@@ -272,9 +330,11 @@ $(window).on("load", () => {
 	screen.setPower();
 	desktop.setTextSelection();
 	desktop.setContextMenus();
+	desktop.setContextControls();
 	desktop.setTyper();
 	desktop.setToggler();
 	windowShell.setLaunchers();
 	windowShell.configureModuleColors();
 	windowShell.setControls();
+	components.setCardClick();
 });

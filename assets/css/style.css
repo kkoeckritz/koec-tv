@@ -1,9 +1,8 @@
 /* global pseudo-selectors */
 :root {
-  /* paths relative to index.html, NOT to this file */
-  --img-bg-1: url("./assets/img/bg1.png");
-  --img-bg-2: url("./assets/img/bg2.jpg");
-  --img-bg-3: url("./assets/img/bg3.jpg");
+  --img-bg-0: url("/assets/img/bg0.png");
+  --img-bg-1: url("/assets/img/bg1.png");
+  --img-bg-2: url("/assets/img/bg2.jpg");
 
   --color-tv: #1a1a1a;
   --color-background: #fa3;
@@ -112,28 +111,6 @@ ion-icon {
 
 
 /* element-specific classes */
-
-/* "monitor" */
-.monitor {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: flex;
-  
-  position: fixed;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 0;
-
-  border-top-width: 30px;
-  border-bottom-width: 50px;
-  border-left-width: 20px;
-  border-right-width: 20px;
-  border-color: var(--color-tv);
-  border-style: solid;
-}
-
 
 /* screen features */
 .monitorScreen{
@@ -245,7 +222,7 @@ ion-icon {
   height: calc(100% - 4px);
 
   background-color: #757575;
-  background-image: url("../img/bg1.png");
+  background-image: url("../img/bg0.png");
   background-size: auto;
   background-repeat: no-repeat;
   background-position: center;
@@ -259,7 +236,15 @@ ion-icon {
   overflow: hidden;
   z-index: -100;
 
-  content: url("../img/bg1.png") url("../img/bg2.jpg") url("../img/bg3.jpg");
+  content: url("../img/bg0.png") url("../img/bg1.png") url("../img/bg2.jpg");
+}
+
+.noTrans * {
+  -webkit-transition: none !important;
+  -moz-transition: none !important;
+  transition: none !important;
+
+  animation: none !important;
 }
 
 .assistant {
@@ -550,6 +535,10 @@ ion-icon {
   margin-bottom: 0;
 }
 
+.contextRow {
+  width: 100%;
+  margin-bottom: 10px;
+}
 .contextRow:last-of-type {
   margin-bottom: 0;
 }
@@ -557,7 +546,6 @@ ion-icon {
 .imgPreview {
   width: 100%;
   height: 30px;
-  margin-bottom: 10px;
 
   background-color: black;
   background-position: center;
@@ -567,21 +555,36 @@ ion-icon {
   border-radius: 4px;
   cursor: pointer;
 }
+.imgPreview[data-img="0"] {
+  background-image: url("../img/previewbg0.png");
+}
+.imgPreview[data-img="1"] {
+  background-image: url("../img/previewbg1.png");
+}
+.imgPreview[data-img="2"] {
+  background-image: url("../img/previewbg2.jpg");
+}
 
 .isSet {
   border: 2px solid var(--chosen-fg-color);
 }
 
-.imgPreview1 {
-  background-image: url("../img/previewbg1.png");
+.contextOption {
+  display: flex;
+  justify-content: stretch;
 }
 
-.imgPreview2 {
-  background-image: url("../img/previewbg2.jpg");
+.optionText {
+  width: 100%;
+  line-height: 10pt;
+  
+  font-family: var(--font-sans);
+  font-size: 10pt;
+  text-align: left;
 }
 
-.imgPreview3 {
-  background-image: url("../img/previewbg3.jpg");
+.optionBox {
+  
 }
 
 .tinyButton {
@@ -881,6 +884,74 @@ ion-icon {
   background-size: 100% 100%;
 }
 
+.cardGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr;
+  justify-content: center;
+  gap: 10px 10px;
+}
+
+.smCard {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: center;
+  align-items: center;
+  
+  position: relative;
+  width: 50%;
+  height: 200px;
+
+  background-color: #f8f8f8;
+  border: 1px solid #eee;
+  border-radius: 5px;
+
+  transition-property: width, height;
+  transition-duration: var(--duration-slow);
+  transition-timing-function: var(--chosen-timing-func);
+}
+
+.chosenCard {
+  width: 100%;
+  height: 100%;
+}
+
+.revealCard {
+  background-image: linear-gradient(120deg, white 0%, var(--color-background) 100%);
+  background-size: 100% .1em;
+  background-position: 0 100%;
+  background-repeat: no-repeat;
+  color: white;
+  font-family: var(--font-sans);
+  font-size: 14pt;
+  text-align: center;
+  cursor: default;
+
+  transition-property: background-size;
+  transition-duration: var(--duration-normal);
+  transition-timing-function: var(--chosen-timing-func);
+  transition-delay: 500ms;
+}
+.revealCard::before {
+  display: flex;
+
+  position: absolute;
+  
+  content: attr(data-placeholder);
+  color: #222;
+
+  transition-property: opacity;
+  transition-timing-function: var(--chosen-timing-func);
+  transition-delay: var(--duration-normal);
+}
+.revealCard:hover {
+  background-size: 100% 100%;
+}
+.revealCard:hover::before {
+  opacity: 0;
+  text-decoration: underline;
+}
+
 
 /* content containers */
 .windowRow {
@@ -941,42 +1012,6 @@ ion-icon {
   font-family: var(--font-sans);
 }
 .infoFooter > a:hover {
-  text-decoration: underline;
-}
-
-.revealCard {
-  background-image: linear-gradient(120deg, var(--color-background) 0%, var(--color-background) 100%);
-  background-size: 100% .1em;
-  background-position: 0 100%;
-  background-repeat: no-repeat;
-  color: white;
-  font-family: var(--font-sans);
-  font-size: 14pt;
-  text-align: center;
-  cursor: default;
-
-  transition-property: background-size;
-  transition-duration: var(--duration-slow);
-  transition-timing-function: var(--chosen-timing-func);
-  transition-delay: 500ms;
-}
-.revealCard::before {
-  display: flex;
-
-  position: absolute;
-  
-  content: attr(data-placeholder);
-  color: #222;
-
-  transition: opacity var(--duration-normal);
-  transition-timing-function: var(--chosen-timing-func);
-  transition-delay: var(--duration-slow);
-}
-.revealCard:hover {
-  background-size: 100% 100%;
-}
-.revealCard:hover::before {
-  opacity: 0;
   text-decoration: underline;
 }
 
@@ -1118,7 +1153,27 @@ ion-icon {
   }
 }
 
-/* TV features */
+/* monitor features */
+.monitor {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex;
+  
+  position: fixed;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+
+  border-top-width: 30px;
+  border-bottom-width: 50px;
+  border-left-width: 10px;
+  border-right-width: 10px;
+  border-color: var(--color-tv);
+  border-style: solid;
+}
+
 .monitorFeatures {
   position: fixed;
   top: 0;
@@ -1129,8 +1184,8 @@ ion-icon {
 
   border-top-width: 30px;
   border-bottom-width: 50px;
-  border-left-width: 20px;
-  border-right-width: 20px;
+  border-left-width: 10px;
+  border-right-width: 10px;
   border-color: var(--color-tv);
   border-style: solid;
 
@@ -1140,8 +1195,8 @@ ion-icon {
   content: "";
   position: fixed;
   top: 30px;
-  left: 20px;
-  width: calc(100% - 40px);
+  left: 10px;
+  width: calc(100% - 20px);
   height: calc(100% - 80px);
   z-index: 101;
   border: 4px inset #111;
